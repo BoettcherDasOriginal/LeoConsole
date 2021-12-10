@@ -615,7 +615,7 @@ namespace LeoConsole
             }
             else
             {
-                return "sdfghfjitruhzdgbnhjfkughfbdhjxfhvnjdkjcfnhvbfjdkfcjvnbgjfkdfjgbnjfkdgvnbjdkfghnfjdkfhbghjkwerfhgjiedsifdkghedkgdgfdgsdfrgejgkhdfghkdfhgesiuuhgihdefgfhghdfgdfihgfhhigherighdehgsdhfhfjrrurueepepew37456478940ß5rofijhbddnsmskjhsgbfdsaq1234567890ßüö-.>>>we245§$%&/()roitjgrmkergnfbhhdhrg";
+                return "ERROR: 670069";
             }
         }
 

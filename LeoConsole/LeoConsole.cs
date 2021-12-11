@@ -146,7 +146,7 @@ namespace LeoConsole
                         Console.WriteLine("Updates verfügbar! \n");
                         Console.WriteLine("Deine Version: " + version);
                         Console.WriteLine("Neue Version: " + updateText + "\n");
-                        Console.WriteLine("Du kannst die Neu version unter <NULL> Herunterladen");
+                        Console.WriteLine("Du kannst die Neu version unter 'https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/' Herunterladen");
                         Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
                         Console.ReadKey();
                     }
@@ -182,7 +182,7 @@ namespace LeoConsole
             Console.Title = "LeoConsole -> Starting...";
 
             Console.WriteLine("Suche Nach Updates...");
-            CheckForUpdate("https://hgs-update.netlify.app/update/LeoConsole.txt", data.DefaultSavePath, data.version);
+            CheckForUpdate("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DefaultSavePath, data.version);
 
             Console.WriteLine("Lädt: SavePath.lcs");
             data.SavePath = SaveLoad.LoadPath();

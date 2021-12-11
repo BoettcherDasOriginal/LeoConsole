@@ -615,7 +615,7 @@ namespace LeoConsole
             }
             else
             {
-                return "ERROR: 670069";
+                return "ERROR: Fehler beim Abrufen des Plugin-Namens!";
             }
         }
 

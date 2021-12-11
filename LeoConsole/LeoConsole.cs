@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.IO.Compression;
 using ILeoConsole;
 using System.Net;
+using System.Diagnostics;
+using System.Threading;
 
 namespace LeoConsole
 {
@@ -136,9 +139,22 @@ namespace LeoConsole
                             Console.WriteLine("Updates verfügbar! \n");
                             Console.WriteLine("Deine Version: " + version);
                             Console.WriteLine("Neue Version: " + updateText + "\n");
-                            Console.WriteLine("Du kannst die Neu version unter <NULL> Herunterladen");
-                            Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
-                            Console.ReadKey();
+                            Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                            string anser = Console.ReadLine();
+                            switch (anser)
+                            {
+                                case "y":
+                                    AutoUpdate(updateText);
+                                    break;
+
+                                case "Y":
+                                    AutoUpdate(updateText);
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Weiter ohne Update!");
+                                    break;
+                            }
                         }
                     }
                     else
@@ -146,9 +162,22 @@ namespace LeoConsole
                         Console.WriteLine("Updates verfügbar! \n");
                         Console.WriteLine("Deine Version: " + version);
                         Console.WriteLine("Neue Version: " + updateText + "\n");
-                        Console.WriteLine("Du kannst die Neu version unter 'https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/' Herunterladen");
-                        Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
-                        Console.ReadKey();
+                        Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                        string anser = Console.ReadLine();
+                        switch (anser)
+                        {
+                            case "y":
+                                AutoUpdate(updateText);
+                                break;
+
+                            case "Y":
+                                AutoUpdate(updateText);
+                                break;
+
+                            default:
+                                Console.WriteLine("Weiter ohne Update!");
+                                break;
+                        }
                     }
                 }
                 else
@@ -156,9 +185,22 @@ namespace LeoConsole
                     Console.WriteLine("Updates verfügbar! \n");
                     Console.WriteLine("Deine Version: " + version);
                     Console.WriteLine("Neue Version: " + updateText + "\n");
-                    Console.WriteLine("Du kannst die Neu version unter <NULL> Herunterladen");
-                    Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
-                    Console.ReadKey();
+                    Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                    string anser = Console.ReadLine();
+                    switch (anser)
+                    {
+                        case "y":
+                            AutoUpdate(updateText);
+                            break;
+
+                        case "Y":
+                            AutoUpdate(updateText);
+                            break;
+
+                        default:
+                            Console.WriteLine("Weiter ohne Update!");
+                            break;
+                    }
                 }
 
                 File.Delete(filepath + "update.txt");
@@ -172,6 +214,74 @@ namespace LeoConsole
             }
         }
 
+        public void AutoUpdate(string newVersion)
+        {
+            string dir = AppDomain.CurrentDomain.BaseDirectory;
+            DirectoryInfo installDir = Directory.GetParent(dir);
+
+            Console.WriteLine("Starte Update...");
+            Console.WriteLine("Installations Ordner: " + installDir.FullName);
+
+            try
+            {
+                Console.WriteLine("Starte Download der neuen Version...");
+
+                string zipFilePath = data.DownloadPath + "LeoConsole_v" + newVersion;
+
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/LeoConsole_v" + newVersion, zipFilePath);
+
+                Console.WriteLine("'" + zipFilePath + "' erfolgreich Heruntergeladen");
+                Console.WriteLine("Extrahiere Zip Datei...");
+                ZipFile.ExtractToDirectory(zipFilePath,installDir.FullName + "LeoConsole_v" + newVersion);
+
+                Console.WriteLine("'data/' könnte evtl. nicht mit der neuen Version kompatiebel sein.");
+                Console.WriteLine("Soll 'data/' zur neuen Version Kopiertwerden? y/n\n");
+                do
+                {
+                    Console.Write(">");
+                    string text = Console.ReadLine();
+
+                    if(text == "y")
+                    {
+                        Tools.DirectoryCopy("data", installDir.FullName + "LeoConsole_v" + newVersion + "\\data", true);
+                        Console.WriteLine("'data/' erfolgreich Kopiert!");
+                        break;
+                    }
+                    else if(text == "n")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Der Befehl '" + text + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                    }
+
+                } while (true);
+
+                Console.WriteLine("Fertig!");
+
+                Process LCProcess = new Process();
+
+                LCProcess.StartInfo.FileName = installDir.FullName + "LeoConsole_v" + newVersion + "\\LeoConsole.exe";
+                LCProcess.StartInfo.Arguments = "";
+                LCProcess.Start();
+
+                File.Delete(zipFilePath);
+
+                Thread.Sleep(100);
+
+                Environment.Exit(0);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Update konnte nicht Heruntergeladen werden!");
+                Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
+                Console.ReadKey();
+            }
+
+        }
+
         #endregion
 
         #region START
@@ -182,10 +292,8 @@ namespace LeoConsole
             Console.Title = "LeoConsole -> Starting...";
 
             Console.WriteLine("Suche Nach Updates...");
-            CheckForUpdate("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DefaultSavePath, data.version);
+            CheckForUpdate("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
 
-            Console.WriteLine("Lädt: SavePath.lcs");
-            data.SavePath = SaveLoad.LoadPath();
             Console.WriteLine("SavePath: " + data.SavePath);
             Console.WriteLine("Lädt: User.lcs");
             
@@ -295,8 +403,6 @@ namespace LeoConsole
 
                     case "neustart": _NEUSTART(); break;
 
-                    case "setSavePath": _SETSAVEPATH(properties[1]); break;
-
                     case "randomNumber": _RANDOMNUMBER(properties[1], Convert.ToInt32(properties[2])); break;
 
                     case "newKonto": _NEWKONTO(); break;
@@ -327,7 +433,6 @@ namespace LeoConsole
             "neustart                         startet Leo Console Neu",
             "credits                          zeigt die Credits",
             "checkForUpdate                   guckt ob Updates verfügbar sind",
-            "setSavePath <path>               setzt den SavePath von Leo Console",
             "randomNumber <bool> <length>     generiert einen zuffälligen Code",
             "newKonto                         erstellt ein neues Konto",
             "kontoInfo                        zeigt die Konto Daten",
@@ -387,35 +492,6 @@ namespace LeoConsole
             }
 
             consoleAppInput();
-        }
-        public void _SETSAVEPATH(string path)
-        {
-            Console.WriteLine("Bist du sicher das du den SavePath auf '" + path + "' legen möchtest? Y/N");
-            Console.Write(">");
-            string anser = Console.ReadLine();
-
-            switch(anser)
-            {
-                default: 
-                    Console.WriteLine("'" + anser + "' ist keine gültige Antwort!");
-                    consoleAppInput();
-                    break;
-
-                case "N":
-                    consoleAppInput();
-                    break;
-
-                case "Y":
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-
-                    SaveLoad.savePath(path);
-                    Console.WriteLine("Der SavePath wurde auf '" + path + "' gesetzt.");
-                    _NEUSTART();
-                    break;
-            }
         }
         public void _RANDOMNUMBER(string withText, int length)
         {
@@ -589,7 +665,7 @@ namespace LeoConsole
         }
         public void _UPDATE()
         {
-            CheckForUpdate("https://hgs-update.netlify.app/update/LeoConsole.txt", data.DefaultSavePath, data.version);
+            CheckForUpdate("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
 
             consoleAppInput();
         }

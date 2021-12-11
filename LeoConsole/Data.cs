@@ -11,8 +11,15 @@ namespace LeoConsole
     {
         public string DefaultSavePath = "data/";
         public string SavePath;
+        public string DownloadPath;
 
         public string version = "1.0.2";
+
+        public Data()
+        {
+            SavePath = DefaultSavePath;
+            DownloadPath = SavePath + "tmp/";
+        }
     }
 
     [System.Serializable]

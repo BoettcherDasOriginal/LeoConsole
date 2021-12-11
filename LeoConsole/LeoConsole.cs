@@ -231,7 +231,7 @@ namespace LeoConsole
         public void AutoUpdate(string newVersion)
         {
             string dir = AppDomain.CurrentDomain.BaseDirectory;
-            DirectoryInfo installDir = Directory.GetParent(dir);
+            DirectoryInfo installDir = Directory.GetParent(Directory.GetParent(dir).FullName);
 
             Console.WriteLine("Starte Update...");
             Console.WriteLine("Installations Ordner: " + installDir.FullName);
@@ -240,14 +240,14 @@ namespace LeoConsole
             {
                 Console.WriteLine("Starte Download der neuen Version...");
 
-                string zipFilePath = data.DownloadPath + "LeoConsole_v" + newVersion;
+                string zipFilePath = data.DownloadPath + "LeoConsole_v" + newVersion + ".zip";
 
                 WebClient webClient = new WebClient();
-                webClient.DownloadFile("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/LeoConsole_v" + newVersion, zipFilePath);
+                webClient.DownloadFile("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/LeoConsole_v" + newVersion + ".zip", zipFilePath);
 
                 Console.WriteLine("'" + zipFilePath + "' erfolgreich Heruntergeladen");
                 Console.WriteLine("Extrahiere Zip Datei...");
-                ZipFile.ExtractToDirectory(zipFilePath,installDir.FullName + "LeoConsole_v" + newVersion);
+                ZipFile.ExtractToDirectory(zipFilePath,installDir.FullName + "\\LeoConsole_v" + newVersion);
 
                 Console.WriteLine("'data/' könnte evtl. nicht mit der neuen Version kompatiebel sein.");
                 Console.WriteLine("Soll 'data/' zur neuen Version Kopiertwerden? y/n\n");
@@ -258,7 +258,7 @@ namespace LeoConsole
 
                     if(text == "y")
                     {
-                        Tools.DirectoryCopy("data", installDir.FullName + "LeoConsole_v" + newVersion + "\\data", true);
+                        Tools.DirectoryCopy("data", installDir.FullName + "\\LeoConsole_v" + newVersion + "\\data", true);
                         Console.WriteLine("'data/' erfolgreich Kopiert!");
                         break;
                     }
@@ -277,7 +277,7 @@ namespace LeoConsole
 
                 Process LCProcess = new Process();
 
-                LCProcess.StartInfo.FileName = installDir.FullName + "LeoConsole_v" + newVersion + "\\LeoConsole.exe";
+                LCProcess.StartInfo.FileName = installDir.FullName + "\\LeoConsole_v" + newVersion + "\\LeoConsole.exe";
                 LCProcess.StartInfo.Arguments = "";
                 LCProcess.Start();
 
@@ -667,7 +667,7 @@ namespace LeoConsole
         }
         public void _PLUGINPATH()
         {
-            Console.WriteLine("PluginPath: " + data.SavePath + "plugins");
+            Console.WriteLine("PluginPath: " + new DirectoryInfo(data.SavePath + "plugins").FullName);
 
             consoleAppInput();
         }

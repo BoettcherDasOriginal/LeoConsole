@@ -120,9 +120,9 @@ namespace LeoConsole
                 int second_updateNumber = Int32.Parse(updateNumbers[1]);
                 int second_versionNumber = Int32.Parse(versionNumbers[1]);
 
-                if(first_updateNumber <= first_versionNumber)
+                if(first_updateNumber >= first_versionNumber)
                 {
-                    if(second_updateNumber <= second_versionNumber)
+                    if(second_updateNumber >= second_versionNumber)
                     {
                         string[] updateNumber = updateNumbers[2].Split('-');
                         string[] versionNumber = versionNumbers[2].Split('-');
@@ -130,11 +130,7 @@ namespace LeoConsole
                         int third_updateNumber = Int32.Parse(updateNumber[0]);
                         int third_versionNumber = Int32.Parse(versionNumber[0]);
 
-                        if(third_updateNumber <= third_versionNumber)
-                        {
-                            Console.WriteLine("Keine Updates Gefunden!");
-                        }
-                        else
+                        if(third_updateNumber > third_versionNumber)
                         {
                             Console.WriteLine("Updates verfügbar! \n");
                             Console.WriteLine("Deine Version: " + version);
@@ -156,51 +152,69 @@ namespace LeoConsole
                                     break;
                             }
                         }
+                        else
+                        {
+                            if(second_updateNumber > second_versionNumber)
+                            {
+                                Console.WriteLine("Updates verfügbar! \n");
+                                Console.WriteLine("Deine Version: " + version);
+                                Console.WriteLine("Neue Version: " + updateText + "\n");
+                                Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                                string anser = Console.ReadLine();
+                                switch (anser)
+                                {
+                                    case "y":
+                                        AutoUpdate(updateText);
+                                        break;
+
+                                    case "Y":
+                                        AutoUpdate(updateText);
+                                        break;
+
+                                    default:
+                                        Console.WriteLine("Weiter ohne Update!");
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Keine Updates Gefunden!");
+                            }
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Updates verfügbar! \n");
-                        Console.WriteLine("Deine Version: " + version);
-                        Console.WriteLine("Neue Version: " + updateText + "\n");
-                        Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
-                        string anser = Console.ReadLine();
-                        switch (anser)
+                        if(first_updateNumber > first_versionNumber)
                         {
-                            case "y":
-                                AutoUpdate(updateText);
-                                break;
+                            Console.WriteLine("Updates verfügbar! \n");
+                            Console.WriteLine("Deine Version: " + version);
+                            Console.WriteLine("Neue Version: " + updateText + "\n");
+                            Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                            string anser = Console.ReadLine();
+                            switch (anser)
+                            {
+                                case "y":
+                                    AutoUpdate(updateText);
+                                    break;
 
-                            case "Y":
-                                AutoUpdate(updateText);
-                                break;
+                                case "Y":
+                                    AutoUpdate(updateText);
+                                    break;
 
-                            default:
-                                Console.WriteLine("Weiter ohne Update!");
-                                break;
+                                default:
+                                    Console.WriteLine("Weiter ohne Update!");
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Keine Updates Gefunden!");
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Updates verfügbar! \n");
-                    Console.WriteLine("Deine Version: " + version);
-                    Console.WriteLine("Neue Version: " + updateText + "\n");
-                    Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
-                    string anser = Console.ReadLine();
-                    switch (anser)
-                    {
-                        case "y":
-                            AutoUpdate(updateText);
-                            break;
-
-                        case "Y":
-                            AutoUpdate(updateText);
-                            break;
-
-                        default:
-                            Console.WriteLine("Weiter ohne Update!");
-                            break;
-                    }
+                    Console.WriteLine("Keine Updates Gefunden!");
                 }
 
                 File.Delete(filepath + "update.txt");

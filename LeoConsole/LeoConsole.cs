@@ -249,6 +249,8 @@ namespace LeoConsole
                 Console.WriteLine("Extrahiere Zip Datei...");
                 ZipFile.ExtractToDirectory(zipFilePath,installDir.FullName + "\\LeoConsole_v" + newVersion);
 
+                File.Delete(zipFilePath);
+
                 Console.WriteLine("'data/' könnte evtl. nicht mit der neuen Version kompatiebel sein.");
                 Console.WriteLine("Soll 'data/' zur neuen Version Kopiertwerden? y/n\n");
                 do
@@ -278,7 +280,8 @@ namespace LeoConsole
                 Process LCProcess = new Process();
 
                 LCProcess.StartInfo.FileName = installDir.FullName + "\\LeoConsole_v" + newVersion + "\\LeoConsole.exe";
-                LCProcess.StartInfo.Arguments = "";
+                LCProcess.StartInfo.Arguments = "update \"" + Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory) + "\"";
+                LCProcess.StartInfo.WorkingDirectory = installDir.FullName + "\\LeoConsole_v" + newVersion + "\\";
                 LCProcess.Start();
 
                 File.Delete(zipFilePath);

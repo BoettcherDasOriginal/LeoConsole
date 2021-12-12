@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
-namespace ILeoConsole
+namespace ILeoConsole.Plugin
 {
     public class PluginLoader
     {

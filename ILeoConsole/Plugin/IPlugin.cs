@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ILeoConsole
+namespace ILeoConsole.Plugin
 {
     public interface IPlugin
     {

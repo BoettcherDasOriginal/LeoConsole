@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
 using ILeoConsole;
+using ILeoConsole.Plugin;
 using System.Net;
 using System.Diagnostics;
 using System.Threading;
@@ -507,6 +508,9 @@ namespace LeoConsole
         public void consoleAppInput()
         {
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(user.name);
+            Console.ResetColor();
             Console.Write(">");
 
             Input = Console.ReadLine();

@@ -14,7 +14,6 @@ namespace LeoConsole
         public static void saveUsers(List<User> users, string savePath)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            Data data = new Data();
 
             FileStream stream = new FileStream(savePath + "user/" + "Users.lcs", FileMode.Create);
 
@@ -24,8 +23,6 @@ namespace LeoConsole
 
         public static List<User> LoadUsers(string savePath)
         {
-            Data data = new Data();
-
             if(!Directory.Exists(savePath + "user/"))
             {
                 Directory.CreateDirectory(savePath + "user/");

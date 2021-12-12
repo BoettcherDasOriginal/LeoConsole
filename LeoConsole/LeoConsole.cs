@@ -34,14 +34,14 @@ namespace LeoConsole
 
         public void firstStart()
         {
-            if(!Directory.Exists(data.DefaultSavePath))
+            if(!Directory.Exists(data.SavePath))
             {
-                Directory.CreateDirectory(data.DefaultSavePath);
+                Directory.CreateDirectory(data.SavePath);
             }
 
             Console.WriteLine("First Startup: \n ");
             Console.WriteLine("Willkommen bei Leo Console!");
-            Console.WriteLine("Damit du Leo Console benutzen kannst, musst du dir ein Konto erstellen.");
+            Console.WriteLine("Damit du Leo Console benutzen kannst, musst du dir ein Root Konto erstellen.");
             Console.WriteLine("Gib dazu 'newKonto' ein. Du hast bereits ein Konto, aber es wurde nicht geladen? Gib 'helpKonto' ein.");
 
             do
@@ -51,13 +51,13 @@ namespace LeoConsole
 
                 if(text == "newKonto")
                 {
-                    newKonto();
+                    newKonto(true, new List<User>());
                     break;
                 }
                 else if(text == "helpKonto")
                 {
-                    Console.WriteLine("\nWenn sie ihren SavePath ändern, kommt es dazu das Leo Console ihre alte User.lcs Datei nicht mehr Findet. ");
-                    Console.Write("Sie können einfach ihre alte User.lcs Datei nach '" + data.SavePath + "' Kopieren.\n");
+                    Console.WriteLine("\nWenn sie ihren SavePath ändern, kommt es dazu das Leo Console ihre alte Users.lcs Datei nicht mehr Findet. ");
+                    Console.Write("Sie können einfach ihre alte Users.lcs Datei nach '" + data.SavePath + "' Kopieren.\n");
                 }
                 else
                 {
@@ -65,32 +65,6 @@ namespace LeoConsole
                 }
 
             } while (true);
-        }
-
-        #endregion
-
-        #region NEWKONTO
-
-        public void newKonto()
-        {
-            User newUser = new User();
-
-            Console.WriteLine("\nUm ein neues Konto zu erstellen, geben sie bitte folgende Informationen ein:");
-
-            Console.Write("Benutzername: ");
-            newUser.name = Console.ReadLine();
-
-            Console.Write("Begrüßungssatz: ");
-            newUser.begrüßung = Console.ReadLine();
-
-            Console.WriteLine("\nDas wars. Drücke eine Beliebige Taste um das Konto zu Speichern.\nBeachte das dein altes Konto (Falls vorhanden) gelöscht wird!");
-            Console.ReadKey();
-            SaveLoad.saveUser(newUser, data.SavePath);
-            Console.WriteLine("Drücke eine Beliebige Taste um Leo Console Neuzustarten.");
-            Console.ReadKey();
-
-            LeoConsole leoConsole = new LeoConsole();
-            leoConsole.neuStart();
         }
 
         #endregion
@@ -301,6 +275,156 @@ namespace LeoConsole
 
         #endregion
 
+        #region User
+
+        public void newKonto(bool root, List<User> users)
+        {
+            User newUser = new User();
+
+            Console.WriteLine("\nUm ein neues Konto zu erstellen, geben sie bitte folgende Informationen ein:");
+
+            Console.Write("Benutzername: ");
+            newUser.name = Console.ReadLine();
+
+            Console.Write("Begrüßungssatz: ");
+            newUser.begrüßung = Console.ReadLine();
+
+            bool passwordCheck = false;
+            do
+            {
+                Console.Write("Password: ");
+                var pass = string.Empty;
+                ConsoleKey key;
+                do
+                {
+                    var keyInfo = Console.ReadKey(intercept: true);
+                    key = keyInfo.Key;
+
+                    if (key == ConsoleKey.Backspace && pass.Length > 0)
+                    {
+                        Console.Write("\b \b");
+                        pass = pass.Substring(0, pass.Length - 1);
+                    }
+                    else if (!char.IsControl(keyInfo.KeyChar))
+                    {
+                        Console.Write("*");
+                        pass += keyInfo.KeyChar;
+                    }
+                } while (key != ConsoleKey.Enter);
+
+                Console.WriteLine("");
+                Console.Write("Password bestätigen: ");
+                var passCheck = string.Empty;
+                ConsoleKey keyCheck;
+                do
+                {
+                    var keyInfo = Console.ReadKey(intercept: true);
+                    keyCheck = keyInfo.Key;
+
+                    if (keyCheck == ConsoleKey.Backspace && passCheck.Length > 0)
+                    {
+                        Console.Write("\b \b");
+                        passCheck = passCheck.Substring(0, passCheck.Length - 1);
+                    }
+                    else if (!char.IsControl(keyInfo.KeyChar))
+                    {
+                        Console.Write("*");
+                        passCheck += keyInfo.KeyChar;
+                    }
+                } while (keyCheck != ConsoleKey.Enter);
+
+                if(pass == passCheck)
+                {
+                    newUser.password = pass;
+                    passwordCheck = true;
+                }
+                else
+                {
+                    Console.WriteLine("Falsches Passwort!");
+                }
+            } while (!passwordCheck);
+
+            newUser.root = root;
+
+            Console.WriteLine("\nDas wars. Drücke eine Beliebige Taste um das Konto zu Speichern.");
+            Console.ReadKey();
+
+            users.Add(newUser);
+            SaveLoad.saveUsers(users, data.SavePath);
+            Console.WriteLine("Drücke eine Beliebige Taste um Leo Console Neuzustarten.");
+            Console.ReadKey();
+
+            LeoConsole leoConsole = new LeoConsole();
+            leoConsole.neuStart();
+        }
+
+        public User UserLogin(List<User> users)
+        {
+            User result = null;
+
+            Dictionary<string, string> userInfos = new Dictionary<string, string>();
+            foreach (User u in users)
+            {
+                userInfos.Add(u.name, u.password);
+            }
+
+            do
+            {
+                Console.Write("Username: ");
+                string username = Console.ReadLine();
+                if (userInfos.ContainsKey(username))
+                {
+                    Console.Write("Password: ");
+                    var pass = string.Empty;
+                    ConsoleKey key;
+                    do
+                    {
+                        var keyInfo = Console.ReadKey(intercept: true);
+                        key = keyInfo.Key;
+
+                        if (key == ConsoleKey.Backspace && pass.Length > 0)
+                        {
+                            Console.Write("\b \b");
+                            pass = pass.Substring(0, pass.Length - 1);
+                        }
+                        else if (!char.IsControl(keyInfo.KeyChar))
+                        {
+                            Console.Write("*");
+                            pass += keyInfo.KeyChar;
+                        }
+                    } while (key != ConsoleKey.Enter);
+                    for (int i = 0; i < userInfos.Count; i++)
+                    {
+                        if(userInfos.Contains(new KeyValuePair<string, string>(username, pass)))
+                        {
+                            foreach(User u in users)
+                            {
+                                if(u.name == username && u.password == pass) { result = u; break; }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Falsches Password!\n");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Der Benutzer '{0}' konnte nicht gefunden werden!\n", username);
+                }
+
+                if(result != null)
+                {
+                    break;
+                }
+
+            } while (true);
+
+            return result;
+        }
+
+        #endregion
+
         #region START
 
         public void start()
@@ -312,18 +436,22 @@ namespace LeoConsole
             CheckForUpdate("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
 
             Console.WriteLine("SavePath: " + data.SavePath);
-            Console.WriteLine("Lädt: User.lcs");
+            Console.WriteLine("Lädt: Users.lcs");
             
-            user = SaveLoad.LoadUser(data.SavePath);
+            List<User> users = SaveLoad.LoadUsers(data.SavePath);
 
-            if(user == null)
+            if(users == null)
             {
                 Console.WriteLine("User.lcs konnte nicht gefunden werden!");
                 firstStart();
             }
             else
             {
-                Console.WriteLine("User: " + user.name);
+                Console.WriteLine("Users.lcs erfolgreich geladen");
+                Console.WriteLine("Einlogen...");
+                user = UserLogin(users);
+
+                Console.WriteLine("\nUser: " + user.name);
 
                 string PluginLoaderPath = data.SavePath + "plugins";
 
@@ -650,12 +778,21 @@ namespace LeoConsole
         }
         public void _NEWKONTO()
         {
-            newKonto();
+            if (user.root)
+            {
+                newKonto(false, SaveLoad.LoadUsers(data.SavePath));
+            }
+            else
+            {
+                Console.WriteLine("Zum erstellen eines neuen Users, benötigst du Root rechte!");
+                consoleAppInput();
+            }
         }
         public void _KONTOINFO()
         {
             Console.WriteLine("Benutzername: " + user.name);
             Console.WriteLine("Begrüßung: " + user.begrüßung);
+            Console.WriteLine("Root: " + user.root.ToString());
 
             consoleAppInput();
         }

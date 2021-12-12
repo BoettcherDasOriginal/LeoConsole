@@ -9,17 +9,10 @@ namespace LeoConsole
 {
     public class Data
     {
-        public string DefaultSavePath = "data/";
-        public string SavePath;
-        public string DownloadPath;
+        public string SavePath = "data/";
+        public string DownloadPath = "data/tmp/";
 
         public string version = "1.1.1";
-
-        public Data()
-        {
-            SavePath = DefaultSavePath;
-            DownloadPath = SavePath + "tmp/";
-        }
     }
 
     [System.Serializable]
@@ -27,5 +20,7 @@ namespace LeoConsole
     {
         public string name;
         public string begrüßung;
+        public string password;
+        public bool root;
     }
 }

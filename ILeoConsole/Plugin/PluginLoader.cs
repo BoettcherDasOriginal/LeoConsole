@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using ILeoConsole.LCConsole;
 
 namespace ILeoConsole.Plugin
 {
@@ -18,6 +19,7 @@ namespace ILeoConsole.Plugin
         }
 
         public static List<IPlugin> Plugins { get; set; }
+        public static List<IConsole> Consoles { get; set; }
 
         public void LoadPlugins()
         {
@@ -36,6 +38,8 @@ namespace ILeoConsole.Plugin
             {
                 //Create a new instance of all found types
                 Plugins.Add((IPlugin)Activator.CreateInstance(type));
+
+                if(typeof(IConsole).IsAssignableFrom(type) && type.IsClass) { Consoles.Add((IConsole)Activator.CreateInstance(type)); }
             }
         }
 

@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data.cs" />
+    <Compile Include="LCConsole\IConsole.cs" />
+    <Compile Include="LCConsole\LCConsole.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

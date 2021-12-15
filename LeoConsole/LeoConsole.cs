@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using ILeoConsole;
 using ILeoConsole.Plugin;
+using ILeoConsole.LCConsole;
 using System.Net;
 using System.Diagnostics;
 using System.Threading;
@@ -508,10 +509,19 @@ namespace LeoConsole
         public void consoleAppInput()
         {
             Console.WriteLine("");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(user.name);
-            Console.ResetColor();
-            Console.Write(">");
+            string afterUserName = "";
+            if (PluginLoader.Consoles != null)
+            {
+                foreach (IConsole console in PluginLoader.Consoles)
+                {
+                    if (console.AfterInput != null && console.AfterInput != "")
+                    {
+                        afterUserName = afterUserName + ":" + console.AfterInput;
+                    }
+                }
+            }
+
+            LCConsole.Write($"§a{user.name}§r{afterUserName}>");
 
             Input = Console.ReadLine();
 

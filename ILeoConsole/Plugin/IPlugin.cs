@@ -10,6 +10,6 @@ namespace ILeoConsole.Plugin
     {
         string Name { get; }
         string Explanation { get; }
-        void PluginMain(string parameters);
+        void PluginMain(string parameters, User currentUser);
     }
 }

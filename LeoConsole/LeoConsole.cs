@@ -362,6 +362,8 @@ namespace LeoConsole
 
         public User UserLogin(List<User> users)
         {
+            LCConsole.WriteLine("[§aLogin§r]");
+
             User result = null;
 
             Dictionary<string, string> userInfos = new Dictionary<string, string>();
@@ -395,6 +397,7 @@ namespace LeoConsole
                             pass += keyInfo.KeyChar;
                         }
                     } while (key != ConsoleKey.Enter);
+                    Console.WriteLine("");
                     for (int i = 0; i < userInfos.Count; i++)
                     {
                         if(userInfos.Contains(new KeyValuePair<string, string>(username, pass)))
@@ -421,7 +424,6 @@ namespace LeoConsole
                 }
 
             } while (true);
-
             return result;
         }
 
@@ -450,10 +452,6 @@ namespace LeoConsole
             else
             {
                 Console.WriteLine("Users.lcs erfolgreich geladen");
-                Console.WriteLine("Einlogen...");
-                user = UserLogin(users);
-
-                Console.WriteLine("\nUser: " + user.name);
 
                 string PluginLoaderPath = data.SavePath + "plugins";
 
@@ -482,17 +480,20 @@ namespace LeoConsole
                     Console.ReadKey();
                 }
 
-                Console.WriteLine("\n--Initialisierung Abgeschlossen--\n");
+                Console.WriteLine($"\n--- LeoConsole v{data.version} ---\n");
                 Console.Title = "LeoConsole  v" + data.version;
 
-                consoleApp();
+                consoleApp(users);
             }
         }
 
         bool starting_anser = false;
 
-        public void consoleApp()
+        public void consoleApp(List<User> users)
         {
+            user = UserLogin(users);
+            Console.WriteLine();
+
             Console.WriteLine(user.begrüßung + " " + user.name + "!");
             starting_anser = false;
 
@@ -562,6 +563,8 @@ namespace LeoConsole
 
                     case "neustart": _NEUSTART(); break;
 
+                    case "logout": _LOGOUT(); break;
+
                     case "randomNumber": _RANDOMNUMBER(properties[1], Convert.ToInt32(properties[2])); break;
 
                     case "newKonto": _NEWKONTO(); break;
@@ -590,6 +593,7 @@ namespace LeoConsole
             "help                             zeigt die Hilfe", 
             "exit                             schließt Leo Console", 
             "neustart                         startet Leo Console Neu",
+            "logout                           meldet den aktuellen Benutzer ab",
             "credits                          zeigt die Credits",
             "checkForUpdate                   guckt ob Updates verfügbar sind",
             "randomNumber <bool> <length>     generiert einen zuffälligen Code",
@@ -620,6 +624,22 @@ namespace LeoConsole
         public void _EXIT()
         {
             Environment.Exit(0);
+        }
+        public void _LOGOUT()
+        {
+            LCConsole.WriteLine("§4logout\n");
+
+            List<User> users = SaveLoad.LoadUsers(data.SavePath);
+
+            if (users == null)
+            {
+                Console.WriteLine("User.lcs konnte nicht gefunden werden!");
+                firstStart();
+            }
+            else
+            {
+                consoleApp(users);
+            }
         }
         public void _NEUSTART()
         {
@@ -869,7 +889,7 @@ namespace LeoConsole
             if (plugin != null)
             {
                 string parameters = line.Replace(string.Format("{0} ", name), string.Empty);
-                plugin.PluginMain(parameters);
+                plugin.PluginMain(parameters,user);
 
                 consoleAppInput();
             }

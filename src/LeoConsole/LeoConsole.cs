@@ -111,6 +111,11 @@ namespace LeoConsole
                     PluginLoader loader = new PluginLoader(PluginLoaderPath);
                     loader.LoadPlugins();
 
+                    foreach(IPlugin plugin in PluginLoader.Plugins)
+                    {
+                        plugin.PluginMain();
+                    }
+
                     Console.WriteLine($"Erfolgreich {PluginLoader.Plugins.Count} Plugins geladen!");
                 }
                 catch (Exception e)

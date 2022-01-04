@@ -13,6 +13,7 @@ namespace ILeoConsole.Plugin
         string Name { get; }
         string Explanation { get; }
         IData data { get; set; }
-        List<ICommand> Commands { get; }
+        List<ICommand> Commands { get; set; }
+        void PluginMain();
     }
 }

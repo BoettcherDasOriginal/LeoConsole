@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ILeoConsole;
@@ -219,5 +221,164 @@ namespace LeoConsole
 
     #endregion
 
+    #region PKG COMMANDS
 
+    public class PKGCOMMAND : ICommand
+    {
+        string url = "https://raw.githubusercontent.com/BoettcherDasOriginal/LeoConsole/main/PackageList.txt";
+        string DirPath = Commands.consoleData.SavePath + "pkg/";
+        string filePKGListName = "PackageList.txt";
+
+        public string Name { get { return "pkg"; } }
+        public string Description { get { return "ruft den Package Manager auf ('pkg get' oder 'pkg update')"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if(_InputProperties.Length > 1)
+            {
+                switch (_InputProperties[1])
+                {
+                    case "get":
+                        if(_InputProperties.Length > 2) { GetPKG(_InputProperties[2]); } else { Console.WriteLine("Parameter Fehlen!"); }
+                        break;
+
+                    case "update":
+                        UpdatePKGList();
+                        break;
+
+                    default:
+                        Console.WriteLine("Der Befehl '" + _InputProperties[1] + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                        break;
+                }
+            }
+            else { Console.WriteLine("LeoConsole PackageManager v1.0"); }
+        }
+
+        void GetPKG(string pkgNameToGet)
+        {
+            string pkgDownloadUrl = null;
+            bool pkgIsFound = false;
+
+            if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
+            if (!File.Exists(DirPath + filePKGListName)) { Console.WriteLine("Die PackageList konnte nicht gefunden werden!\nVersuche mal 'pkg update'"); return; }
+
+            if (_InputProperties.Length > 1)
+            {
+                if (!pkgIsFound)
+                {
+                    foreach (string pkgListLine in File.ReadLines(DirPath + filePKGListName))
+                    {
+                        if (pkgIsFound) 
+                        {
+                            break; 
+                        }
+
+                        string[] pkgListProperties = pkgListLine.Split(' ');
+                        if (pkgListProperties.Length > 0)
+                        {
+                            string dUrl = null;
+                            string dName = null;
+
+                            switch (pkgListProperties[0])
+                            {
+                                case "pkg":
+                                    for (int i = 1; i < pkgListProperties.Length; i++)
+                                    {
+                                        string[] pkgProperties = pkgListProperties[i].Split(':');
+
+                                        if (pkgProperties.Length > 0)
+                                        {
+                                            switch (pkgProperties[0])
+                                            {
+                                                case "-n":
+                                                    dName = pkgProperties[1];
+                                                    break;
+
+                                                case "-d":
+                                                    dUrl = pkgProperties[1];
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                    if (dName == pkgNameToGet)
+                                    {
+                                        pkgIsFound = true;
+                                        if (dUrl != null) { pkgDownloadUrl = "https://" + dUrl; } else { pkgDownloadUrl = null; }
+                                    }
+
+                                    dUrl = null;
+                                    dName = null;
+
+                                    break;
+                            }
+                        }
+                    }
+
+                    if (pkgIsFound)
+                    {
+                        Console.WriteLine($"pkg '{pkgNameToGet}' gefunden!");
+                        PKGDownload(pkgDownloadUrl, pkgNameToGet);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"pkg '{pkgNameToGet}' konnte nicht gefunden werden!");
+                    }
+                }
+            }
+        }
+
+        void PKGDownload(string url, string name)
+        {
+            Console.WriteLine("Starte PKG Download...");
+            try
+            {
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(url, Commands.consoleData.SavePath + $"plugins/{name}.dll");
+
+                Console.WriteLine("pkg erfolgreich Heruntergeladen!");
+                Console.WriteLine("Starte LeoConsole neu um es zu aktievieren!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        void UpdatePKGList()
+        {
+            if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
+
+            try
+            {
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(url, DirPath + filePKGListName);
+
+                Console.WriteLine("Die PackageList ist nun aktuell!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Es ist ein Fehler beim updaten der PackageList aufgetaucht!\nBitte versuche es später nocheinmal!");
+            }
+        }
+    }
+
+    public class PLUGININFO : ICommand
+    {
+        public string Name { get { return "pkginfo"; } }
+        public string Description { get { return "zeigt alle geladene Plugins"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            foreach(IPlugin plugin in PluginLoader.Plugins)
+            {
+                LConsole.WriteLine(plugin.Name + " => " + plugin.Explanation);
+            }
+        }
+    }
+
+    #endregion
 }

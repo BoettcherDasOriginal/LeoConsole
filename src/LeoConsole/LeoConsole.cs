@@ -252,6 +252,8 @@ namespace LeoConsole
             commands.Add(new LOGOUT());
             commands.Add(new NEWUSERC());
             commands.Add(new WHOAMI());
+            commands.Add(new PKGCOMMAND());
+            commands.Add(new PLUGININFO());
         }
     }
 }

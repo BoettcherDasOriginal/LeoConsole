@@ -12,6 +12,6 @@ namespace LeoConsole
         public string SavePath = "data/";
         public string DownloadPath = "data/tmp/";
 
-        public string version = "1.3.0";
+        public string version = "1.4.0";
     }
 }

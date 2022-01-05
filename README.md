@@ -9,3 +9,7 @@ It is written in C# .NET 6
 * Multiple Users => I don't know why xD
 * Auto Update => Automatically downloads and install the latest version
 * And some more coming soon!
+
+# Need help?
+Check out the wiki!<br>
+Or open an issue!

@@ -11,5 +11,5 @@ It is written in C# .NET 6
 * And some more coming soon!
 
 # Need help?
-Check out the wiki!<br>
+Check out the [wiki](https://github.com/BoettcherDasOriginal/LeoConsole/wiki/Plugin-Tutorial)!<br>
 Or open an issue!

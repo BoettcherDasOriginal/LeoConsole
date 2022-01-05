@@ -1,1 +1,2 @@
 pkg -n:examplePlugin -d:github.com/BoettcherDasOriginal/LeoConsole-ExamplePlugin/releases/latest/download/LeoConsole-ExamplePlugin.dll
+pkg -n:apkg -d:github.com/alexcoder04/LeoConsole-apkg/releases/download/v0.0.1/apkg.dll

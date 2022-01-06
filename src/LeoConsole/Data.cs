@@ -15,6 +15,8 @@ namespace LeoConsole
 
         public string version = "1.4.0";
 
+        public bool isLinuxBuild = false;
+
         public Data()
         {
             workingPath = AppDomain.CurrentDomain.BaseDirectory;

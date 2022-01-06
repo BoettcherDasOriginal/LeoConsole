@@ -82,7 +82,14 @@ namespace LeoConsole
             Console.WriteLine("Startet...");
             Console.Title = "LeoConsole -> Starting...";
 
-            Update.CheckForUpdate(data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
+            if (!data.isLinuxBuild)
+            {
+                Update.CheckForUpdate(data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
+            }
+            else
+            {
+                Console.WriteLine("Update übersprungen: LinuxBuild");
+            }
 
             Console.WriteLine("Lädt: Users.lcs");
 

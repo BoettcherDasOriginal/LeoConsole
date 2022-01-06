@@ -140,6 +140,19 @@ namespace LeoConsole
         }
     }
 
+    public class RELOAD : ICommand
+    {
+        public string Name { get { return "reload"; } }
+        public string Description { get { return "lädt alle Plugins neu"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            Commands.currrentConsole.reloadPlugins();
+        }
+    }
+
     public class CREDITS : ICommand
     {
         public string Name { get { return "credits"; } }
@@ -337,7 +350,7 @@ namespace LeoConsole
                 webClient.DownloadFile(url, Path.Combine(Commands.consoleData.SavePath, "plugins", $"{name}.dll"));
 
                 Console.WriteLine("pkg erfolgreich Heruntergeladen!");
-                Console.WriteLine("Starte LeoConsole neu um es zu aktievieren!");
+                Commands.currrentConsole.reloadPlugins();
             }
             catch (Exception ex)
             {

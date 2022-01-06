@@ -24,6 +24,7 @@ namespace ILeoConsole.Plugin
         public void LoadPlugins()
         {
             Plugins = new List<IPlugin>();
+            Consoles = new List<IConsole>();
 
             //Load the DLLs from the Plugins directory
             GetDlls(PluginFolder);

@@ -8,6 +8,8 @@ namespace ILeoConsole.Plugin
 {
     public interface IConsole
     {
-        string AfterInput { get; set; }
+        string PluginTextAfterInput { get; set; }
+        bool reboot { get; set; }
+        bool reload { get; set; }
     }
 }

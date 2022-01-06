@@ -19,6 +19,8 @@ namespace LeoConsole
         public static List<ICommand> commands = new List<ICommand>();
         public static List<IData> datas = new List<IData>();
 
+        #region RESET
+
         public void reboot()
         {
             Console.Clear();
@@ -35,6 +37,81 @@ namespace LeoConsole
 
             start();
         }
+
+        public void reloadPlugins()
+        {
+            LConsole.WriteLine("§6reload");
+
+            commands = new List<ICommand>();
+            datas = new List<IData>();
+
+            string PluginLoaderPath = Path.Combine(data.SavePath, "plugins");
+
+            if (!Directory.Exists(PluginLoaderPath))
+            {
+                Directory.CreateDirectory(PluginLoaderPath);
+            }
+
+            Console.WriteLine("Lädt: Plugins");
+
+            try
+            {
+                PluginLoader loader = new PluginLoader(PluginLoaderPath);
+                loader.LoadPlugins();
+
+                foreach (IPlugin plugin in PluginLoader.Plugins)
+                {
+                    plugin.PluginMain();
+                }
+
+                foreach (IConsole console in PluginLoader.Consoles)
+                {
+                    console.reboot = false;
+                    console.reload = false;
+                }
+
+                Console.WriteLine($"Erfolgreich {PluginLoader.Plugins.Count} Plugins geladen!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Plugins konnten nicht Geladen werden: {0}", e.Message));
+                Console.WriteLine("Drücke eine Beliebige Taste um fortzufahren...");
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("Registriere: Datas");
+            datas.Add(Commands.consoleData);
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                if (plugin.data != null)
+                {
+                    datas.Add(plugin.data);
+                }
+            }
+
+            foreach (IData data in LeoConsole.datas)
+            {
+                data.SavePath = this.data.SavePath;
+                data.DownloadPath = this.data.DownloadPath;
+            }
+            Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
+
+            Console.WriteLine("Registriere: Commands");
+            DefaultCommands();
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                if (plugin.Commands.Count > 0)
+                {
+                    foreach (ICommand command in plugin.Commands)
+                    {
+                        commands.Add(command);
+                    }
+                }
+            }
+            Console.WriteLine($"Erfolgreich {commands.Count} Commands registriert!");
+        }
+
+        #endregion
 
         #region FIRSTSTART
 
@@ -123,6 +200,12 @@ namespace LeoConsole
                         plugin.PluginMain();
                     }
 
+                    foreach(IConsole console in PluginLoader.Consoles)
+                    {
+                        console.reboot = false;
+                        console.reload = false;
+                    }
+
                     Console.WriteLine($"Erfolgreich {PluginLoader.Plugins.Count} Plugins geladen!");
                 }
                 catch (Exception e)
@@ -192,15 +275,23 @@ namespace LeoConsole
 
         public void GetInput()
         {
+            //Check for Plugin command request
+            foreach (IConsole console in PluginLoader.Consoles)
+            {
+                if (console.reboot) { reboot(); break; }
+                if (console.reload) { reloadPlugins(); break; }
+            }
+
+            //Input
             Console.WriteLine("");
             string afterUserName = "";
             if (PluginLoader.Consoles != null)
             {
                 foreach (IConsole console in PluginLoader.Consoles)
                 {
-                    if (console.AfterInput != null && console.AfterInput != "")
+                    if (console.PluginTextAfterInput != null && console.PluginTextAfterInput != "")
                     {
-                        afterUserName = afterUserName + ":" + console.AfterInput;
+                        afterUserName = afterUserName + ":" + console.PluginTextAfterInput;
                     }
                 }
             }
@@ -255,6 +346,7 @@ namespace LeoConsole
             commands.Add(new UPDATE());
             commands.Add(new EXIT());
             commands.Add(new REBOOT());
+            commands.Add(new RELOAD());
             commands.Add(new CREDITS());
             commands.Add(new LOGOUT());
             commands.Add(new NEWUSERC());

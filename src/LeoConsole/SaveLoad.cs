@@ -15,7 +15,7 @@ namespace LeoConsole
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
-            FileStream stream = new FileStream(savePath + "user/" + "Users.lcs", FileMode.Create);
+            FileStream stream = new FileStream(Path.Combine(savePath, "user", "Users.lcs"), FileMode.Create);
 
             formatter.Serialize(stream, users);
             stream.Close();
@@ -23,15 +23,15 @@ namespace LeoConsole
 
         public static List<User> LoadUsers(string savePath)
         {
-            if (!Directory.Exists(savePath + "user/"))
+            if (!Directory.Exists(Path.Combine(savePath, "user")))
             {
-                Directory.CreateDirectory(savePath + "user/");
+                Directory.CreateDirectory(Path.Combine(savePath, "user"));
             }
 
-            if (File.Exists(savePath + "user/" + "Users.lcs"))
+            if (File.Exists(Path.Combine(savePath, "user", "Users.lcs")))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                FileStream stream = new FileStream(savePath + "user/" + "Users.lcs", FileMode.Open);
+                FileStream stream = new FileStream(Path.Combine(savePath, "user", "Users.lcs"), FileMode.Open);
 
                 List<User> users = formatter.Deserialize(stream) as List<User>;
                 stream.Close();

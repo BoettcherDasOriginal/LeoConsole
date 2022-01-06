@@ -97,7 +97,7 @@ namespace LeoConsole
             {
                 Console.WriteLine("Users.lcs erfolgreich geladen");
 
-                string PluginLoaderPath = data.SavePath + "plugins";
+                string PluginLoaderPath = Path.Combine(data.SavePath, "plugins");
 
                 if (!Directory.Exists(PluginLoaderPath))
                 {

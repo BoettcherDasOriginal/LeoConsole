@@ -28,7 +28,6 @@ namespace LeoConsole
         public string SavePath { get { return _SavePath; } set { _SavePath = value; } }
         private string _DownloadPath;
         public string DownloadPath { get { return _DownloadPath; } set { _DownloadPath = value; } }
-        public string Version { get { return Commands.currrentConsole.data.version; } }
     }
 
     #endregion
@@ -94,7 +93,7 @@ namespace LeoConsole
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            Update.CheckForUpdate(Commands.currrentConsole.data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", Commands.consoleData.DownloadPath, Commands.consoleData.Version);
+            Update.CheckForUpdate(Commands.currrentConsole.data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", Commands.consoleData.DownloadPath, Commands.currrentConsole.data.version);
         }
     }
 
@@ -150,7 +149,7 @@ namespace LeoConsole
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            LConsole.WriteLine($"LeoConsole v{Commands.consoleData.Version}");
+            LConsole.WriteLine($"LeoConsole v{Commands.currrentConsole.data.version}");
             LConsole.WriteLine("(c) 2021-2022, BoettcherDasOriginal");
         }
     }
@@ -226,7 +225,7 @@ namespace LeoConsole
     public class PKGCOMMAND : ICommand
     {
         string url = "https://raw.githubusercontent.com/BoettcherDasOriginal/LeoConsole/main/PackageList.txt";
-        string DirPath = Commands.consoleData.SavePath + "pkg/";
+        string DirPath = Path.Combine(Commands.consoleData.SavePath, "pkg");
         string filePKGListName = "PackageList.txt";
 
         public string Name { get { return "pkg"; } }
@@ -262,13 +261,13 @@ namespace LeoConsole
             bool pkgIsFound = false;
 
             if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
-            if (!File.Exists(DirPath + filePKGListName)) { Console.WriteLine("Die PackageList konnte nicht gefunden werden!\nVersuche mal 'pkg update'"); return; }
+            if (!File.Exists(Path.Combine(DirPath, filePKGListName))) { Console.WriteLine("Die PackageList konnte nicht gefunden werden!\nVersuche mal 'pkg update'"); return; }
 
             if (_InputProperties.Length > 1)
             {
                 if (!pkgIsFound)
                 {
-                    foreach (string pkgListLine in File.ReadLines(DirPath + filePKGListName))
+                    foreach (string pkgListLine in File.ReadLines(Path.Combine(DirPath, filePKGListName)))
                     {
                         if (pkgIsFound) 
                         {
@@ -335,7 +334,7 @@ namespace LeoConsole
             try
             {
                 WebClient webClient = new WebClient();
-                webClient.DownloadFile(url, Commands.consoleData.SavePath + $"plugins/{name}.dll");
+                webClient.DownloadFile(url, Path.Combine(Commands.consoleData.SavePath, "plugins", $"{name}.dll"));
 
                 Console.WriteLine("pkg erfolgreich Heruntergeladen!");
                 Console.WriteLine("Starte LeoConsole neu um es zu aktievieren!");
@@ -353,7 +352,7 @@ namespace LeoConsole
             try
             {
                 WebClient webClient = new WebClient();
-                webClient.DownloadFile(url, DirPath + filePKGListName);
+                webClient.DownloadFile(url, Path.Combine(DirPath, filePKGListName));
 
                 Console.WriteLine("Die PackageList ist nun aktuell!");
             }

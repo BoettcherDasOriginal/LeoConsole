@@ -23,9 +23,9 @@ namespace LeoConsole
             try
             {
                 WebClient webClient = new WebClient();
-                webClient.DownloadFile(url, filepath + "update.txt");
+                webClient.DownloadFile(url, Path.Combine(filepath, "update.txt"));
 
-                string updateText = File.ReadAllText(filepath + "update.txt");
+                string updateText = File.ReadAllText(Path.Combine(filepath, "update.txt"));
 
                 string[] updateNumbers = updateText.Split('.');
                 string[] versionNumbers = version.Split('.');
@@ -156,14 +156,14 @@ namespace LeoConsole
             {
                 Console.WriteLine("Starte Download der neuen Version...");
 
-                string zipFilePath = data.DownloadPath + "LeoConsole_v" + newVersion + ".zip";
+                string zipFilePath = Path.Combine(data.DownloadPath, $"LeoConsole_v{newVersion}.zip");
 
                 WebClient webClient = new WebClient();
                 webClient.DownloadFile("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/LeoConsole_v" + newVersion + ".zip", zipFilePath);
 
                 Console.WriteLine("'" + zipFilePath + "' erfolgreich Heruntergeladen");
                 Console.WriteLine("Extrahiere Zip Datei...");
-                ZipFile.ExtractToDirectory(zipFilePath, installDir.FullName + "\\LeoConsole_v" + newVersion);
+                ZipFile.ExtractToDirectory(zipFilePath, Path.Combine(installDir.FullName, $"LeoConsole_v{newVersion}"));
 
                 File.Delete(zipFilePath);
 
@@ -176,7 +176,7 @@ namespace LeoConsole
 
                     if (text == "y")
                     {
-                        Tools.DirectoryCopy("data", installDir.FullName + "\\LeoConsole_v" + newVersion + "\\data", true);
+                        Tools.DirectoryCopy(data.SavePath, Path.Combine(installDir.FullName, $"LeoConsole_v{newVersion}", "data"), true);
                         Console.WriteLine("'data/' erfolgreich Kopiert!");
                         break;
                     }
@@ -195,9 +195,9 @@ namespace LeoConsole
 
                 Process LCProcess = new Process();
 
-                LCProcess.StartInfo.FileName = installDir.FullName + "\\LeoConsole_v" + newVersion + "\\LeoConsole.exe";
+                LCProcess.StartInfo.FileName = Path.Combine(installDir.FullName, $"LeoConsole_v{newVersion}", "LeoConsole.exe");
                 LCProcess.StartInfo.Arguments = "update \"" + Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory) + "\"";
-                LCProcess.StartInfo.WorkingDirectory = installDir.FullName + "\\LeoConsole_v" + newVersion + "\\";
+                LCProcess.StartInfo.WorkingDirectory = Path.Combine(installDir.FullName, $"LeoConsole_v{newVersion}");
                 LCProcess.Start();
 
                 File.Delete(zipFilePath);

@@ -9,9 +9,17 @@ namespace LeoConsole
 {
     public class Data
     {
-        public string SavePath = "data/";
-        public string DownloadPath = "data/tmp/";
+        public string workingPath;
+        public string SavePath;
+        public string DownloadPath;
 
         public string version = "1.4.0";
+
+        public Data()
+        {
+            workingPath = AppDomain.CurrentDomain.BaseDirectory;
+            SavePath = Path.Combine(workingPath, "data");
+            DownloadPath = Path.Combine(SavePath, "tmp");
+        }
     }
 }

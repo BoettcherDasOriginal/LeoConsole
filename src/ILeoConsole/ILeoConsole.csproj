@@ -1,9 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Company />
+    <Authors>BoettcherDasOriginal</Authors>
+    <Description>ILeoConsole</Description>
+    <Copyright>(c) 2021-2022 BoettcherDasOriginal</Copyright>
+    <PackageProjectUrl>https://github.com/BoettcherDasOriginal/LeoConsole</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BoettcherDasOriginal/LeoConsole</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>LeoConsole</PackageTags>
+    <AssemblyVersion>1.5.0</AssemblyVersion>
+    <Version>1.5.0</Version>
   </PropertyGroup>
 
 </Project>

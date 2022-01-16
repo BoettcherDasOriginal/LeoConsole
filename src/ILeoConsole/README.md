@@ -9,4 +9,4 @@ It is written in C# .NET 6
 
 # Need help?
 Check out the [wiki](https://github.com/BoettcherDasOriginal/LeoConsole/wiki/Plugin-Tutorial)!<br>
-Or open an issue on [git](https://github.com/BoettcherDasOriginal/LeoConsole/)!
+Or open an issue on [GitHub](https://github.com/BoettcherDasOriginal/LeoConsole/)!

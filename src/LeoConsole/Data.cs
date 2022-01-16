@@ -13,12 +13,16 @@ namespace LeoConsole
         public string SavePath;
         public string DownloadPath;
 
-        public string version = "1.4.1";
+        public string version = "1.5.0";
 
         public bool isLinuxBuild = false;
 
         public Data()
         {
+            #if !WINDOWS
+                isLinuxBuild = true;
+            #endif
+
             workingPath = AppDomain.CurrentDomain.BaseDirectory;
             SavePath = Path.Combine(workingPath, "data");
             DownloadPath = Path.Combine(SavePath, "tmp");

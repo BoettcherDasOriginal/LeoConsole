@@ -23,8 +23,25 @@ namespace LeoConsole
 
             Console.WriteLine("\nUm ein neues Konto zu erstellen, geben sie bitte folgende Informationen ein:");
 
-            Console.Write("Benutzername: ");
-            newUser.name = Console.ReadLine();
+            while (true)
+            {
+                Console.Write("Benutzername: ");
+                string userName = Console.ReadLine();
+
+                bool same = false;
+                foreach(User user in users)
+                {
+                    if (userName == user.name)
+                    {
+                        Console.WriteLine("Dieser Benutername ist bereits vergeben!");
+
+                        same = true;
+                        break;
+                    }
+                }
+
+                if (!same) { newUser.name = userName; break; }
+            }
 
             Console.Write("Begrüßungssatz: ");
             newUser.begrüßung = Console.ReadLine();

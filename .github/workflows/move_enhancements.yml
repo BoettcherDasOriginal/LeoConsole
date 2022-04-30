@@ -12,4 +12,4 @@ jobs:
         with:
           project: Enhancements
           column: New
-          token: ${{ secrets.PM_PERSONAL_ACCESS_TOKEN }}
+          repo-token: ${{ secrets.PM_PERSONAL_ACCESS_TOKEN }}

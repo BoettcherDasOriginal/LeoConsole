@@ -59,11 +59,6 @@ namespace LeoConsole
                 PluginLoader loader = new PluginLoader(PluginLoaderPath);
                 loader.LoadPlugins();
 
-                foreach (IPlugin plugin in PluginLoader.Plugins)
-                {
-                    plugin.PluginMain();
-                }
-
                 foreach (IConsole console in PluginLoader.Consoles)
                 {
                     console.reboot = false;
@@ -95,6 +90,11 @@ namespace LeoConsole
                 data.DownloadPath = this.data.DownloadPath;
             }
             Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
+
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                plugin.PluginMain();
+            }
 
             Console.WriteLine("Registriere: Commands");
             DefaultCommands();
@@ -195,11 +195,6 @@ namespace LeoConsole
                     PluginLoader loader = new PluginLoader(PluginLoaderPath);
                     loader.LoadPlugins();
 
-                    foreach(IPlugin plugin in PluginLoader.Plugins)
-                    {
-                        plugin.PluginMain();
-                    }
-
                     foreach(IConsole console in PluginLoader.Consoles)
                     {
                         console.reboot = false;
@@ -231,6 +226,11 @@ namespace LeoConsole
                     data.DownloadPath = this.data.DownloadPath;
                 }
                 Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
+
+                foreach (IPlugin plugin in PluginLoader.Plugins)
+                {
+                    plugin.PluginMain();
+                }
 
                 Console.WriteLine("Registriere: Commands");
                 DefaultCommands();

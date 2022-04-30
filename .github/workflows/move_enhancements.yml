@@ -6,7 +6,7 @@ on:
 jobs:
   move-enhancement-card:
     runs-on: ubuntu-latest
-    if: contains( github.event.issues.labels.*.name, 'enhancement')
+    if: github.event.issues.opened && contains( github.event.issues.labels.*.name, 'enhancement')
     steps:
       - uses: alex-page/github-project-automation-plus@5bcba1c1c091a222584d10913e5c060d32c44044
         with:

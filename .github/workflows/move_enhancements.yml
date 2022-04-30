@@ -1,8 +1,8 @@
 name: Move enhancement card
 on:
   issues:
-    types:
-      - [opened, labeled]
+    types: [opened, labeled]
+    
 jobs:
   move-enhancement-card:
     runs-on: ubuntu-latest

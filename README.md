@@ -12,4 +12,4 @@ It is written in C# .NET 6
 
 # Need help?
 Check out the [wiki](https://github.com/BoettcherDasOriginal/LeoConsole/wiki/Plugin-Tutorial)!<br>
-Or open an issue!
+Or open a new discussion!

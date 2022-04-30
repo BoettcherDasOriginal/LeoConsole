@@ -1,0 +1,15 @@
+name: Move bug card
+on:
+  issues:
+    types: [opened, labeled]
+    
+jobs:
+  move-enhancement-card:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'bug'
+    steps:
+      - uses: alex-page/github-project-automation-plus@5bcba1c1c091a222584d10913e5c060d32c44044
+        with:
+          project: Bugs
+          column: New
+          repo-token: ${{ secrets.PM_PERSONAL_ACCESS_TOKEN }}

@@ -2,7 +2,7 @@ name: Move enhancements card
 on:
   issues:
     types:
-      - labeled
+      - opened
 jobs:
   runs-on: ubuntu-latest
   if: contains( github.event.issues.labels.*.name, 'enhancement')

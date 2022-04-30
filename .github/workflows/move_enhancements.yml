@@ -1,4 +1,4 @@
-name: Move bug card
+name: Move enhancements card
 on:
   issues:
     types:

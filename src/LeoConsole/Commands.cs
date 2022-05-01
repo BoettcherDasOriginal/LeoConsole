@@ -28,6 +28,8 @@ namespace LeoConsole
         public string SavePath { get { return _SavePath; } set { _SavePath = value; } }
         private string _DownloadPath;
         public string DownloadPath { get { return _DownloadPath; } set { _DownloadPath = value; } }
+        private string _Version;
+        public string Version { get { return _Version; } set { _Version = value; } }
     }
 
     #endregion

@@ -93,6 +93,7 @@ namespace LeoConsole
             {
                 data.SavePath = this.data.SavePath;
                 data.DownloadPath = this.data.DownloadPath;
+                data.Version = this.data.version;
             }
             Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
 
@@ -229,6 +230,7 @@ namespace LeoConsole
                 {
                     data.SavePath = this.data.SavePath;
                     data.DownloadPath = this.data.DownloadPath;
+                    data.Version = this.data.version;
                 }
                 Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
 

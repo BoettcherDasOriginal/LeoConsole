@@ -13,7 +13,7 @@ namespace LeoConsole
         public string SavePath;
         public string DownloadPath;
 
-        public string version = "1.5.0";
+        public string version = "2.0.0-Dev";
 
         public bool isLinuxBuild = false;
 

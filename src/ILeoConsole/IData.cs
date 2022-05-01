@@ -13,5 +13,6 @@ namespace ILeoConsole
         public User User { get; set; }
         public string SavePath { get; set; }
         public string DownloadPath { get; set; }
+        public string Version { get; set; }
     }
 }

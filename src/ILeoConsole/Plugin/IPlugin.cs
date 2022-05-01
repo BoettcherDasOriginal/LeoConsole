@@ -14,6 +14,8 @@ namespace ILeoConsole.Plugin
         string Explanation { get; }
         IData data { get; set; }
         List<ICommand> Commands { get; set; }
+        void PluginInit();
         void PluginMain();
+        void PluginShutdown();
     }
 }

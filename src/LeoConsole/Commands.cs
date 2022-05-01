@@ -108,6 +108,11 @@ namespace LeoConsole
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Exit()
         {
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                plugin.PluginShutdown();
+            }
+
             Environment.Exit(0);
         }
     }

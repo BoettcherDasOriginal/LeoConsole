@@ -61,7 +61,7 @@ namespace LeoConsole
 
                 foreach (IPlugin plugin in PluginLoader.Plugins)
                 {
-                    plugin.PluginMain();
+                    plugin.PluginInit();
                 }
 
                 foreach (IConsole console in PluginLoader.Consoles)
@@ -110,6 +110,11 @@ namespace LeoConsole
                 }
             }
             Console.WriteLine($"Erfolgreich {commands.Count} Commands registriert!");
+
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                plugin.PluginMain();
+            }
         }
 
         #endregion
@@ -198,7 +203,7 @@ namespace LeoConsole
 
                     foreach(IPlugin plugin in PluginLoader.Plugins)
                     {
-                        plugin.PluginMain();
+                        plugin.PluginInit();
                     }
 
                     foreach(IConsole console in PluginLoader.Consoles)
@@ -247,6 +252,11 @@ namespace LeoConsole
                     }
                 }
                 Console.WriteLine($"Erfolgreich {commands.Count} Commands registriert!");
+
+                foreach (IPlugin plugin in PluginLoader.Plugins)
+                {
+                    plugin.PluginMain();
+                }
 
                 Console.WriteLine($"\n--- LeoConsole v{data.version} ---\n");
                 Console.Title = "LeoConsole  v" + data.version;

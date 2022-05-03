@@ -310,7 +310,6 @@ namespace LeoConsole
 
             LConsole.Write($"§a{user.name}§r{afterUserName}>");
 
-            //Input = Console.ReadLine();
             Input = LConsole.ReadLine(commands);
 
             HandleInput();

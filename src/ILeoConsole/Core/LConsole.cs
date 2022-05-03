@@ -236,11 +236,13 @@ namespace ILeoConsole.Core
             if (CommandHistory.Count < CommandBuffer)
             {
                 if (!CommandHistory.Contains(value)) { CommandHistory.Add(value); historyPosition++; }
+                else { historyPosition--; }
             }
             else
             {
                 CommandHistory.Remove(CommandHistory[0]);
                 if (!CommandHistory.Contains(value)) { CommandHistory.Add(value); historyPosition++; }
+                else { historyPosition--; }
             }
         }
 

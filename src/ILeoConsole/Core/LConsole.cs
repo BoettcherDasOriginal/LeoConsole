@@ -128,5 +128,123 @@ namespace ILeoConsole.Core
 
         #endregion
 
+        #region Read
+
+        public static int CommandBuffer = 100;
+        static int historyPosition = 0;
+        public static List<string> CommandHistory = new List<string>();
+
+        public static string ReadLine(List<ICommand> commands)
+        {
+            var input = string.Empty;
+            ConsoleKey key;
+            do
+            {
+                var keyInfo = Console.ReadKey(intercept: true);
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.Backspace && input.Length > 0)
+                {
+                    Console.Write("\b \b");
+                    input = input.Substring(0, input.Length - 1);
+                }
+                else if(key == ConsoleKey.Tab)
+                {
+                    int options = 0;
+                    List<string> names = new List<string>();
+                    foreach(ICommand command in commands)
+                    {
+                        if(command.Name.StartsWith(input, StringComparison.OrdinalIgnoreCase)) { options++; names.Add(command.Name); }
+                    }
+
+                    if(options > 1)
+                    {
+                        Console.WriteLine();
+                        for(int i = 0; i < names.Count; i++)
+                        {
+                            Console.Write(names.ToArray()[i] + ", ");
+                        }
+                        AddToCommandHistory(input);
+                        input = string.Empty;
+                        break;
+                    }
+                    else if(options > 0)
+                    {
+                        string command = names[0];
+                        string cmd = command.Substring(input.Length, command.Length - input.Length);
+                        Console.Write(cmd);
+                        input += cmd;
+                    }
+                }
+                else if(key == ConsoleKey.LeftArrow) 
+                {
+                    if(Console.CursorLeft > 0)
+                    {
+                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    }
+                }
+                else if (key == ConsoleKey.RightArrow)
+                {
+                    if(Console.CursorLeft < Console.BufferWidth - 1)
+                    {
+                        Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
+                    }
+                }
+                else if (key == ConsoleKey.DownArrow)
+                {
+                    if(CommandHistory.Count > 0 && CommandHistory.Count > historyPosition + 1 && historyPosition + 1 < CommandBuffer)
+                    {
+                        historyPosition++;
+                        for(int i = 0; i < input.Length; i++)
+                        {
+                            Console.Write("\b \b");
+                        }
+                        Console.Write(CommandHistory[historyPosition]);
+                        input = CommandHistory[historyPosition];
+                    }
+                }
+                else if (key == ConsoleKey.UpArrow)
+                {
+                    if (CommandHistory.Count > 0 && CommandHistory.Count > historyPosition - 1 && historyPosition - 1 >= 0)
+                    {
+                        historyPosition--;
+                        for (int i = 0; i < input.Length; i++)
+                        {
+                            Console.Write("\b \b");
+                        }
+                        Console.Write(CommandHistory[historyPosition]);
+                        input = CommandHistory[historyPosition];
+                    }
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    Console.Write(keyInfo.KeyChar);
+                    input += keyInfo.KeyChar;
+                }
+
+            } while (key != ConsoleKey.Enter);
+
+            AddToCommandHistory(input);
+
+            Console.WriteLine();
+
+            return input;
+        }
+
+        static void AddToCommandHistory(string value)
+        {
+            if (CommandHistory.Count < CommandBuffer)
+            {
+                if (!CommandHistory.Contains(value)) { CommandHistory.Add(value); historyPosition++; }
+            }
+            else
+            {
+                CommandHistory.Remove(CommandHistory[0]);
+                if (!CommandHistory.Contains(value)) { CommandHistory.Add(value); historyPosition++; }
+            }
+        }
+
+        #endregion
+
     }
 }

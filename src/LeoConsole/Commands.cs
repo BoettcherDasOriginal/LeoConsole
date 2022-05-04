@@ -30,6 +30,8 @@ namespace LeoConsole
         public string DownloadPath { get { return _DownloadPath; } set { _DownloadPath = value; } }
         private string _Version;
         public string Version { get { return _Version; } set { _Version = value; } }
+        private string _CurrentWorkingPath;
+        public string CurrentWorkingPath { get { return _CurrentWorkingPath; } set { _CurrentWorkingPath = value; } }
     }
 
     #endregion
@@ -156,7 +158,7 @@ namespace LeoConsole
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            Commands.currrentConsole.reloadPlugins();
+            Commands.currrentConsole.reloadPlugins(true);
         }
     }
 
@@ -242,6 +244,7 @@ namespace LeoConsole
 
     #region PKG COMMANDS
 
+    #region OLD
     public class PKGCOMMAND : ICommand
     {
         string url = "https://raw.githubusercontent.com/BoettcherDasOriginal/LeoConsole/main/PackageList.txt";
@@ -249,7 +252,7 @@ namespace LeoConsole
         string filePKGListName = "PackageList.txt";
 
         public string Name { get { return "pkg"; } }
-        public string Description { get { return "ruft den Package Manager auf ('pkg get' oder 'pkg update')"; } }
+        public string Description { get { return "ruft den §4alten§r Package Manager auf ('pkg get' oder 'pkg update')"; } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -357,7 +360,7 @@ namespace LeoConsole
                 webClient.DownloadFile(url, Path.Combine(Commands.consoleData.SavePath, "plugins", $"{name}.dll"));
 
                 Console.WriteLine("pkg erfolgreich Heruntergeladen!");
-                Commands.currrentConsole.reloadPlugins();
+                Commands.currrentConsole.reloadPlugins(true);
             }
             catch (Exception ex)
             {
@@ -382,6 +385,7 @@ namespace LeoConsole
             }
         }
     }
+    #endregion
 
     public class PLUGININFO : ICommand
     {
@@ -395,6 +399,92 @@ namespace LeoConsole
             foreach(IPlugin plugin in PluginLoader.Plugins)
             {
                 LConsole.WriteLine(plugin.Name + " => " + plugin.Explanation);
+            }
+        }
+    }
+
+    #endregion
+
+    #region WORKING DIRECTORY COMMANDS
+
+    public class LS : ICommand
+    {
+        public string Name { get { return "ls"; } }
+        public string Description { get { return "Displays a list of files and directories"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if (_InputProperties.Length > 1)
+            {
+                switch (_InputProperties[1])
+                {
+                    default:
+                        Console.WriteLine("Der Befehl '" + _InputProperties[1] + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                        break;
+                }
+            }
+            else
+            {
+                string[] _subdirectories = Directory.GetDirectories(LeoConsole.CurrentWorkingPath);
+                string[] _files = Directory.GetFiles(LeoConsole.CurrentWorkingPath);
+
+                foreach (string subdir in _subdirectories)
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(subdir);
+                    if (directoryInfo.Exists)
+                    {
+                        LConsole.Write($"§e'{directoryInfo.Name}' §r");
+                    }
+                }
+
+                foreach (string file in _files)
+                {
+                    FileInfo fileInfo = new FileInfo(file);
+                    if (fileInfo.Exists)
+                    {
+                        LConsole.Write($"§a'{fileInfo.Name}' §r");
+                    }
+                }
+            }
+        }
+    }
+
+    public class CD : ICommand
+    {
+        public string Name { get { return "cd"; } }
+        public string Description { get { return "cd"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if (_InputProperties.Length > 1)
+            {
+                string path = string.Empty;
+                for (int i = 1; i < _InputProperties.Length; i++)
+                {
+                    if(i == 1)
+                    {
+                        path = path + _InputProperties[i];
+                    }
+                    else
+                    {
+                        path = path + " " + _InputProperties[i];
+                    }
+                }
+
+                string newPath = Path.Combine(LeoConsole.CurrentWorkingPath, path);
+
+                if (Directory.Exists(newPath))
+                {
+                    LeoConsole.CurrentWorkingPath = Path.GetFullPath(newPath);
+                }
+                else
+                {
+                    Console.WriteLine("Der Ordner '" + path + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                }
             }
         }
     }

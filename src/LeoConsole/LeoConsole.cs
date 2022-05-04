@@ -16,6 +16,7 @@ namespace LeoConsole
         User user;
         UserFunctions userFunctions;
 
+        public static string CurrentWorkingPath;
         public static List<ICommand> commands = new List<ICommand>();
         public static List<IData> datas = new List<IData>();
 
@@ -38,9 +39,9 @@ namespace LeoConsole
             start();
         }
 
-        public void reloadPlugins()
+        public void reloadPlugins(bool reload)
         {
-            LConsole.WriteLine("§6reload");
+            if (reload) { LConsole.WriteLine("§6reload"); }
 
             commands = new List<ICommand>();
             datas = new List<IData>();
@@ -165,6 +166,8 @@ namespace LeoConsole
             Console.WriteLine("Startet...");
             Console.Title = "LeoConsole -> Starting...";
 
+            CurrentWorkingPath = data.SavePath;
+
             if (!data.isLinuxBuild)
             {
                 Update.CheckForUpdate(data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
@@ -187,76 +190,7 @@ namespace LeoConsole
             {
                 Console.WriteLine("Users.lcs erfolgreich geladen");
 
-                string PluginLoaderPath = Path.Combine(data.SavePath, "plugins");
-
-                if (!Directory.Exists(PluginLoaderPath))
-                {
-                    Directory.CreateDirectory(PluginLoaderPath);
-                }
-
-                Console.WriteLine("Lädt: Plugins");
-
-                try
-                {
-                    PluginLoader loader = new PluginLoader(PluginLoaderPath);
-                    loader.LoadPlugins();
-
-                    foreach(IPlugin plugin in PluginLoader.Plugins)
-                    {
-                        plugin.PluginInit();
-                    }
-
-                    foreach(IConsole console in PluginLoader.Consoles)
-                    {
-                        console.reboot = false;
-                        console.reload = false;
-                    }
-
-                    Console.WriteLine($"Erfolgreich {PluginLoader.Plugins.Count} Plugins geladen!");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(string.Format("Plugins konnten nicht Geladen werden: {0}", e.Message));
-                    Console.WriteLine("Drücke eine Beliebige Taste um LeoConsole ohne Plugins zu starten...");
-                    Console.ReadKey();
-                }
-
-                Console.WriteLine("Registriere: Datas");
-                datas.Add(Commands.consoleData);
-                foreach(IPlugin plugin in PluginLoader.Plugins)
-                {
-                    if(plugin.data != null)
-                    {
-                        datas.Add(plugin.data);
-                    }
-                }
-
-                foreach (IData data in LeoConsole.datas)
-                {
-                    data.SavePath = this.data.SavePath;
-                    data.DownloadPath = this.data.DownloadPath;
-                    data.Version = this.data.version;
-                }
-                Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
-
-                Console.WriteLine("Registriere: Commands");
-                DefaultCommands();
-                foreach(IPlugin plugin in PluginLoader.Plugins)
-                {
-                    if(plugin.Commands.Count > 0)
-                    {
-                        foreach(ICommand command in plugin.Commands)
-                        {
-                            commands.Add(command);
-                        }
-                    }
-                }
-                Console.WriteLine($"Erfolgreich {commands.Count} Commands registriert!");
-
-                foreach (IPlugin plugin in PluginLoader.Plugins)
-                {
-                    plugin.PluginMain();
-                }
+                reloadPlugins(false);
 
                 Console.WriteLine($"\n--- LeoConsole v{data.version} ---\n");
                 Console.Title = "LeoConsole  v" + data.version;
@@ -291,7 +225,7 @@ namespace LeoConsole
             foreach (IConsole console in PluginLoader.Consoles)
             {
                 if (console.reboot) { reboot(); break; }
-                if (console.reload) { reloadPlugins(); break; }
+                if (console.reload) { reloadPlugins(true); break; }
             }
 
             //Input
@@ -308,7 +242,10 @@ namespace LeoConsole
                 }
             }
 
-            LConsole.Write($"§a{user.name}§r{afterUserName}>");
+            string pathDisplay = CurrentWorkingPath;
+            if(pathDisplay.Equals(data.SavePath, StringComparison.OrdinalIgnoreCase)) { pathDisplay = "\\"; }
+
+            LConsole.Write($"§a{user.name}§r{afterUserName}:§9{pathDisplay}§r>");
 
             Input = LConsole.ReadLine(commands);
 
@@ -346,6 +283,11 @@ namespace LeoConsole
                 Console.WriteLine("Der Befehl '" + properties[0] + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
             }
 
+            foreach(IData data in datas)
+            {
+                data.CurrentWorkingPath = CurrentWorkingPath;
+            }
+
             GetInput();
         }
 
@@ -363,8 +305,10 @@ namespace LeoConsole
             commands.Add(new LOGOUT());
             commands.Add(new NEWUSERC());
             commands.Add(new WHOAMI());
-            commands.Add(new PKGCOMMAND());
+            //commands.Add(new PKGCOMMAND()); OLD PACKAGE MANAGER
             commands.Add(new PLUGININFO());
+            commands.Add(new LS());
+            commands.Add(new CD());
         }
     }
 }

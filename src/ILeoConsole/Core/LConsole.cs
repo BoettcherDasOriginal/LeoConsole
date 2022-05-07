@@ -136,10 +136,18 @@ namespace ILeoConsole.Core
 
         public static string ReadLine(List<ICommand> commands)
         {
+            int cursorX = Console.CursorLeft;
+            int cursorY = Console.CursorTop;
+            int rows = 0;
+
             var input = string.Empty;
             ConsoleKey key;
             do
             {
+                int maxCursorX = cursorX + input.Length;
+                int rowDif = Console.CursorTop - cursorY;
+                if (rowDif > rows) { rows = rowDif; }
+
                 var keyInfo = Console.ReadKey(intercept: true);
                 key = keyInfo.Key;
 
@@ -178,16 +186,46 @@ namespace ILeoConsole.Core
                 }
                 else if(key == ConsoleKey.LeftArrow) 
                 {
-                    if(Console.CursorLeft > 0)
+                    if(Console.CursorTop == cursorY)
                     {
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                        if (Console.CursorLeft > 0 && Console.CursorLeft > cursorX)
+                        {
+                            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                        }
+                    }
+                    else if(Console.CursorTop > cursorY)
+                    {
+                        if (Console.CursorLeft > 0)
+                        {
+                            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(Console.BufferWidth - 1, Console.CursorTop - 1);
+                        }
                     }
                 }
                 else if (key == ConsoleKey.RightArrow)
                 {
-                    if(Console.CursorLeft < Console.BufferWidth - 1)
+                    if (Console.CursorTop == cursorY)
                     {
-                        Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
+                        if (Console.CursorLeft < Console.BufferWidth - 1 && Console.CursorLeft < maxCursorX)
+                        {
+                            Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
+                        }
+                        else if(Console.CursorTop < Console.CursorTop + rows)
+                        {
+                            Console.SetCursorPosition(1, Console.CursorTop + 1);
+                        }
+                    }
+                    else if (Console.CursorTop > cursorY)
+                    {
+                        int newMaxCursorX = (rowDif * (Console.BufferWidth - 1) - (input.Length + cursorX - 1)) * -1;
+
+                        if (Console.CursorLeft < Console.BufferWidth - 1 && Console.CursorLeft < newMaxCursorX)
+                        {
+                            Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
+                        }
                     }
                 }
                 else if (key == ConsoleKey.DownArrow)

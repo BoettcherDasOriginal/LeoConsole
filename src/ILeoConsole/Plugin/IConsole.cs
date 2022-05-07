@@ -9,7 +9,6 @@ namespace ILeoConsole.Plugin
     public interface IConsole
     {
         string PluginTextAfterInput { get; set; }
-        bool reboot { get; set; }
-        bool reload { get; set; }
+        string Execute { get; set; }
     }
 }

@@ -292,5 +292,49 @@ namespace ILeoConsole.Core
 
         #endregion
 
+        public static bool YesNoDialog(string message, bool acceptEnter = true)
+        {
+            Console.WriteLine(message + " Y/N");
+            Console.Write(">");
+            string anser = Console.ReadLine();
+
+            if (acceptEnter)
+            {
+                switch (anser.ToLower())
+                {
+                    default:
+                        Console.WriteLine("'" + anser + "' is not a valid answer!");
+                        return false;
+                        break;
+
+                    case "n":
+                        return false;
+                        break;
+
+                    case "":
+                    case "y":
+                        return true;
+                        break;
+                }
+            }
+            else
+            {
+                switch (anser.ToLower())
+                {
+                    default:
+                        Console.WriteLine("'" + anser + "' is not a valid answer!");
+                        return false;
+                        break;
+
+                    case "n":
+                        return false;
+                        break;
+
+                    case "y":
+                        return true;
+                        break;
+                }
+            }
+        }
     }
 }

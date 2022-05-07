@@ -507,5 +507,110 @@ namespace LeoConsole
         }
     }
 
+    public class MKDIR : ICommand
+    {
+        public string Name { get { return "mkdir"; } }
+        public string Description { get { return "create a directory"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if (_InputProperties.Length < 2)
+            {
+                Console.WriteLine("you need to provide at least one directory name");
+                return;
+            }
+            for (int i = 1; i < _InputProperties.Length; i++)
+            {
+                mkdir(_InputProperties[i]);
+                Console.Write("\n");
+            }
+        }
+
+        private void mkdir(string directory)
+        {
+            string path = Path.Combine(LeoConsole.CurrentWorkingPath, directory);
+
+            try
+            {
+                Directory.CreateDirectory(path);
+                Console.WriteLine("created " + path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error: " + e.Message);
+            }
+        }
+    }
+
+    public class RMTRASH : ICommand
+    {
+        public string Name { get { return "rmtrash"; } }
+        public string Description { get { return "remove a file or a directory"; } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if (_InputProperties.Length < 2)
+            {
+                Console.WriteLine("you need to provide at least one directory or file name");
+                return;
+            }
+            for (int i = 1; i < _InputProperties.Length; i++)
+            {
+                rmtrash(_InputProperties[i]);
+                Console.Write("\n");
+            }
+        }
+
+        private void rmtrash(string path)
+        {
+            string _path = Path.Combine(LeoConsole.CurrentWorkingPath, path);
+            string trashPath = Path.Combine(Commands.consoleData.SavePath, "trash");
+            if (!Directory.Exists(trashPath))
+            {
+                Directory.CreateDirectory(trashPath);
+            }
+
+            try
+            {
+                if (Directory.Exists(_path))
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(_path);
+                    Console.WriteLine(directoryInfo.FullName);
+                    bool yes = LConsole.YesNoDialog("Are you sure you want to delete this directory and all of its contents?", false);
+                    if (yes)
+                    {
+                        Directory.Move(_path, Path.Combine(trashPath, directoryInfo.Name));
+                        Console.WriteLine("removed " + directoryInfo.FullName);
+                    }
+                    else { Console.WriteLine("deletion canceled"); }
+                }
+                else if (File.Exists(_path))
+                {
+                    FileInfo fileInfo = new FileInfo(_path);
+                    Console.WriteLine(fileInfo.FullName);
+                    bool yes = LConsole.YesNoDialog("Are you sure you want to delete this file?", false);
+                    if (yes)
+                    {
+                        File.Move(_path, Path.Combine(trashPath, fileInfo.Name));
+                        Console.WriteLine("removed " + path);
+                    }
+                    else { Console.WriteLine("deletion canceled"); }
+                }
+                else
+                {
+                    Console.WriteLine("File or directory does not exist!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error: " + e.Message);
+            }
+        }
+    }
+
     #endregion
 }

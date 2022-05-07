@@ -67,8 +67,7 @@ namespace LeoConsole
 
                 foreach (IConsole console in PluginLoader.Consoles)
                 {
-                    console.reboot = false;
-                    console.reload = false;
+                    console.Execute = string.Empty;
                 }
 
                 Console.WriteLine($"Erfolgreich {PluginLoader.Plugins.Count} Plugins geladen!");
@@ -224,8 +223,12 @@ namespace LeoConsole
             //Check for Plugin command request
             foreach (IConsole console in PluginLoader.Consoles)
             {
-                if (console.reboot) { reboot(); break; }
-                if (console.reload) { reloadPlugins(true); break; }
+                if(console.Execute != string.Empty)
+                {
+                    Input = console.Execute;
+                    HandleInput();
+                    break;
+                }
             }
 
             //Input
@@ -310,6 +313,8 @@ namespace LeoConsole
             commands.Add(new PLUGININFO());
             commands.Add(new LS());
             commands.Add(new CD());
+            commands.Add(new MKDIR());
+            commands.Add(new RMTRASH());
         }
     }
 }

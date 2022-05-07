@@ -257,7 +257,8 @@ namespace LeoConsole
         {
             //handle
 
-            properties = Input.Split(' ');
+            //properties = Input.Split(' ');
+            properties = Utils.HandelApostropheInput(Input);
 
             if (!starting_anser && properties[0] == "hi")
             {

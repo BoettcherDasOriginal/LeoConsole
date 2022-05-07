@@ -416,37 +416,56 @@ namespace LeoConsole
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            if (_InputProperties.Length > 1)
+            if (_InputProperties.Length < 2)
             {
-                switch (_InputProperties[1])
-                {
-                    default:
-                        Console.WriteLine("Der Befehl '" + _InputProperties[1] + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
-                        break;
-                }
+                ls(LeoConsole.CurrentWorkingPath);
+                return;
             }
-            else
+            for (int i = 1; i < _InputProperties.Length; i++)
             {
-                string[] _subdirectories = Directory.GetDirectories(LeoConsole.CurrentWorkingPath);
-                string[] _files = Directory.GetFiles(LeoConsole.CurrentWorkingPath);
+                ls(_InputProperties[i]);
+                Console.Write("\n");
+            }
+        }
 
-                foreach (string subdir in _subdirectories)
+        private void ls(string directory)
+        {
+            string path = Path.Combine(LeoConsole.CurrentWorkingPath, directory);
+
+            Console.WriteLine(path + ":");
+            try
+            {
+                foreach (string filename in Directory.GetDirectories(path))
                 {
-                    DirectoryInfo directoryInfo = new DirectoryInfo(subdir);
-                    if (directoryInfo.Exists)
+                    string file = Path.GetFileName(filename);
+
+                    if (file.Contains(' '))
                     {
-                        LConsole.Write($"§e'{directoryInfo.Name}' §r");
+                        LConsole.Write($"§e'{ Path.GetFileName(filename) + "/"}' §r");
+                    }
+                    else
+                    {
+                        LConsole.Write($"§e{ Path.GetFileName(filename) + "/"} §r");
                     }
                 }
-
-                foreach (string file in _files)
+                foreach (string filename in Directory.GetFiles(path))
                 {
-                    FileInfo fileInfo = new FileInfo(file);
-                    if (fileInfo.Exists)
+                    string file = Path.GetFileName(filename);
+
+                    if (file.Contains(' '))
                     {
-                        LConsole.Write($"§a'{fileInfo.Name}' §r");
+                        LConsole.Write($"§a'{Path.GetFileName(filename)}' §r");
+                    }
+                    else
+                    {
+                        LConsole.Write($"§a{Path.GetFileName(filename)} §r");
                     }
                 }
+                Console.Write("\n");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error: " + e.Message);
             }
         }
     }

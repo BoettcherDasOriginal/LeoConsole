@@ -309,7 +309,6 @@ namespace LeoConsole
             commands.Add(new LOGOUT());
             commands.Add(new NEWUSERC());
             commands.Add(new WHOAMI());
-            //commands.Add(new PKGCOMMAND()); OLD PACKAGE MANAGER
             commands.Add(new PLUGININFO());
             commands.Add(new LS());
             commands.Add(new CD());

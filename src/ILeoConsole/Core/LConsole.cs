@@ -11,6 +11,10 @@ namespace ILeoConsole.Core
 
         #region Write
 
+        /// <summary>
+        /// Writes the specified string value, followed by the current line terminator, and provides simple colored output
+        /// </summary>
+        /// <param name="value"></param>
         public static void WriteLine(string value)
         {
             Char[] chars = value.ToCharArray();
@@ -69,6 +73,10 @@ namespace ILeoConsole.Core
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// Writes the specified string value and provides simple colored output
+        /// </summary>
+        /// <param name="value"></param>
         public static void Write(string value)
         {
             Char[] chars = value.ToCharArray();
@@ -134,6 +142,11 @@ namespace ILeoConsole.Core
         static int historyPosition = 0;
         public static List<string> CommandHistory = new List<string>();
 
+        /// <summary>
+        /// Reads the next line of characters and adds default UNIX console features (for example autocompletion and arrow-up history) 
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <returns>The next line of characters</returns>
         public static string ReadLine(List<ICommand> commands)
         {
             int cursorX = Console.CursorLeft;
@@ -292,6 +305,12 @@ namespace ILeoConsole.Core
 
         #endregion
 
+        /// <summary>
+        /// Prints a yes/no dialog with the given message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="acceptEnter"></param>
+        /// <returns>Returns TRUE if the user answers yes</returns>
         public static bool YesNoDialog(string message, bool acceptEnter = true)
         {
             Console.WriteLine(message + " Y/N");

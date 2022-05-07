@@ -10,11 +10,26 @@ namespace ILeoConsole.Core
     {
         #region STRING FUNCTIONS
 
+        /// <summary>
+        /// Returns the text between the given tags
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="start_tag"></param>
+        /// <param name="end_tag"></param>
+        /// <returns></returns>
         public static string GetTextBetweenTags(string text, string start_tag, string end_tag)
         {
             return text.Split(start_tag)[1].Split(end_tag)[0];
         }
 
+        /// <summary>
+        /// Returns the text with the given replacement without the tags
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="replacement"></param>
+        /// <param name="start_tag"></param>
+        /// <param name="end_tag"></param>
+        /// <returns></returns>
         public static string ReplaceTextBetweenTags(string text, string replacement, string start_tag, string end_tag)
         {
             int start_index = text.IndexOf(start_tag);

@@ -141,7 +141,8 @@ namespace ILeoConsole.Core
             int rows = 0;
 
             var input = string.Empty;
-            ConsoleKey key;
+            ConsoleKey key = ConsoleKey.NoName;
+            ConsoleKey lastKey;
             do
             {
                 int maxCursorX = cursorX + input.Length;
@@ -149,6 +150,7 @@ namespace ILeoConsole.Core
                 if (rowDif > rows) { rows = rowDif; }
 
                 var keyInfo = Console.ReadKey(intercept: true);
+                lastKey = key;
                 key = keyInfo.Key;
 
                 if (key == ConsoleKey.Backspace && input.Length > 0)
@@ -233,6 +235,7 @@ namespace ILeoConsole.Core
                     if(CommandHistory.Count > 0 && CommandHistory.Count > historyPosition + 1 && historyPosition + 1 < CommandBuffer)
                     {
                         historyPosition++;
+                        if(historyPosition < 0) { historyPosition = 0; }
                         for(int i = 0; i < input.Length; i++)
                         {
                             Console.Write("\b \b");
@@ -261,6 +264,9 @@ namespace ILeoConsole.Core
                 }
 
             } while (key != ConsoleKey.Enter);
+
+            if(lastKey == ConsoleKey.UpArrow) { historyPosition += 2; }
+            else if(lastKey == ConsoleKey.DownArrow) { historyPosition -= 2; }
 
             AddToCommandHistory(input);
 

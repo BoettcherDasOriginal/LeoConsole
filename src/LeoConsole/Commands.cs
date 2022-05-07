@@ -441,11 +441,11 @@ namespace LeoConsole
 
                     if (file.Contains(' '))
                     {
-                        LConsole.Write($"§e'{ Path.GetFileName(filename) + "/"}' §r");
+                        LConsole.WriteLine($"§e'{ Path.GetFileName(filename) + "/"}' §r");
                     }
                     else
                     {
-                        LConsole.Write($"§e{ Path.GetFileName(filename) + "/"} §r");
+                        LConsole.WriteLine($"§e{ Path.GetFileName(filename) + "/"} §r");
                     }
                 }
                 foreach (string filename in Directory.GetFiles(path))
@@ -454,14 +454,13 @@ namespace LeoConsole
 
                     if (file.Contains(' '))
                     {
-                        LConsole.Write($"§a'{Path.GetFileName(filename)}' §r");
+                        LConsole.WriteLine($"§a'{Path.GetFileName(filename)}' §r");
                     }
                     else
                     {
-                        LConsole.Write($"§a{Path.GetFileName(filename)} §r");
+                        LConsole.WriteLine($"§a{Path.GetFileName(filename)} §r");
                     }
                 }
-                Console.Write("\n");
             }
             catch (Exception e)
             {

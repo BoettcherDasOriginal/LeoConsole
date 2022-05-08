@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 using ILeoConsole.Plugin;
+using ILeoConsole.Localization;
 
 namespace ILeoConsole.Plugin
 {
@@ -41,6 +42,7 @@ namespace ILeoConsole.Plugin
                 Plugins.Add((IPlugin)Activator.CreateInstance(type));
 
                 if (typeof(IConsole).IsAssignableFrom(type) && type.IsClass) { Consoles.Add((IConsole)Activator.CreateInstance(type)); }
+                if (typeof(ILocalization).IsAssignableFrom(type) && type.IsClass) { LocalisationManager.Localizations.Add((ILocalization)Activator.CreateInstance(type)); }
             }
         }
 

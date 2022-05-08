@@ -26,7 +26,7 @@ namespace LeoConsole
             LeoConsole leoConsole = new LeoConsole();
             leoConsole.reboot();
 
-            Console.WriteLine("LeoConsole wurde Beendet");
+            Console.WriteLine("LeoConsole has been terminated");
             Console.ReadLine();
         }
 
@@ -37,9 +37,9 @@ namespace LeoConsole
                 DirectoryInfo oldDir = new DirectoryInfo(oldVersionPath);
                 if (oldDir.Exists)
                 {
-                    Console.WriteLine("LeoConsole wurde erfolgreich aktualiesiert!");
-                    Console.WriteLine("alte Installation: " + oldDir.FullName);
-                    Console.WriteLine("Soll die alte Installation deinstalliert werden? y/n");
+                    Console.WriteLine("Leo Console has been updated successfully!");
+                    Console.WriteLine("Old Installation: " + oldDir.FullName);
+                    Console.WriteLine("Do you want to uninstall the old installation? y/n");
                     do
                     {
                         Console.Write(">");
@@ -56,20 +56,20 @@ namespace LeoConsole
                         }
                         else
                         {
-                            Console.WriteLine("Der Befehl '" + text + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                            Console.WriteLine("The command '" + text + "' is either misspelled or could not be found.");
                         }
 
                     } while (true);
                 }
                 else
                 {
-                    Console.WriteLine("'" + oldVersionPath + "' konnte nicht gefunden werden!");
+                    Console.WriteLine("'" + oldVersionPath + "' could not be found!");
                     Console.ReadKey();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("'" + oldVersionPath + "' konnte nicht gefunden werden!");
+                Console.WriteLine("'" + oldVersionPath + "' could not be found!");
                 Console.WriteLine("Exception:\n" + ex.ToString());
                 Console.ReadKey();
             }

@@ -11,7 +11,7 @@ namespace ILeoConsole.Localization
         /// <summary>
         /// The language for the specified translations (for example "en" for english)
         /// </summary>
-        string Language { get; set; }
+        string Language { get; }
 
         /// <summary>
         /// Contains your keys and there given translation

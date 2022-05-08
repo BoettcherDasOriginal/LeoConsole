@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ILeoConsole;
 using ILeoConsole.Core;
 using ILeoConsole.Plugin;
+using ILeoConsole.Localization;
 
 namespace LeoConsole
 {
@@ -53,7 +54,7 @@ namespace LeoConsole
                 Directory.CreateDirectory(PluginLoaderPath);
             }
 
-            Console.WriteLine("Lädt: Plugins");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadPlugins"));
 
             try
             {
@@ -70,16 +71,16 @@ namespace LeoConsole
                     console.Execute = string.Empty;
                 }
 
-                Console.WriteLine($"Erfolgreich {PluginLoader.Plugins.Count} Plugins geladen!");
+                Console.WriteLine($"{PluginLoader.Plugins.Count} {LocalisationManager.GetLocalizationFromKey("lc_loadPluginsSuc")}");
             }
             catch (Exception e)
             {
-                Console.WriteLine(string.Format("Plugins konnten nicht Geladen werden: {0}", e.Message));
-                Console.WriteLine("Drücke eine Beliebige Taste um fortzufahren...");
+                Console.WriteLine(string.Format(LocalisationManager.GetLocalizationFromKey("lc_loadPluginsFailed") + " {0}", e.Message));
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_anyKeyContinue"));
                 Console.ReadKey();
             }
 
-            Console.WriteLine("Registriere: Datas");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadDatas"));
             datas.Add(Commands.consoleData);
             foreach (IPlugin plugin in PluginLoader.Plugins)
             {
@@ -95,9 +96,9 @@ namespace LeoConsole
                 data.DownloadPath = this.data.DownloadPath;
                 data.Version = this.data.version;
             }
-            Console.WriteLine($"Erfolgreich {datas.Count} Datas registriert!");
+            Console.WriteLine($"{datas.Count} {LocalisationManager.GetLocalizationFromKey("lc_loadDatasSuc")}");
 
-            Console.WriteLine("Registriere: Commands");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadCommands"));
             DefaultCommands();
             foreach (IPlugin plugin in PluginLoader.Plugins)
             {
@@ -109,7 +110,7 @@ namespace LeoConsole
                     }
                 }
             }
-            Console.WriteLine($"Erfolgreich {commands.Count} Commands registriert!");
+            Console.WriteLine($"{commands.Count} {LocalisationManager.GetLocalizationFromKey("lc_loadCommandsSuc")}");
 
             foreach (IPlugin plugin in PluginLoader.Plugins)
             {
@@ -129,9 +130,9 @@ namespace LeoConsole
             }
 
             Console.WriteLine("First Startup: \n ");
-            Console.WriteLine("Willkommen bei Leo Console!");
-            Console.WriteLine("Damit du Leo Console benutzen kannst, musst du dir ein Root Konto erstellen.");
-            Console.WriteLine("Gib dazu 'newKonto' ein. Du hast bereits ein Konto, aber es wurde nicht geladen? Gib 'helpKonto' ein.");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_firstStartHi"));
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_firstStartInfo1"));
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_firstStartInfo2"));
 
             do
             {
@@ -145,12 +146,12 @@ namespace LeoConsole
                 }
                 else if (text == "helpKonto")
                 {
-                    Console.WriteLine("\nWenn sie ihren SavePath ändern, kommt es dazu das Leo Console ihre alte Users.lcs Datei nicht mehr Findet. ");
-                    Console.Write("Sie können einfach ihre alte Users.lcs Datei nach '" + data.SavePath + "' Kopieren.\n");
+                    Console.WriteLine($"\n{LocalisationManager.GetLocalizationFromKey("lc_firstStartHelp1")}");
+                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_firstStartHelp2"));
                 }
                 else
                 {
-                    Console.WriteLine("Der Befehl '" + text + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_cantFindCmdFront") + text + LocalisationManager.GetLocalizationFromKey("lc_cantFindCmdBack"));
                 }
 
             } while (true);
@@ -162,7 +163,10 @@ namespace LeoConsole
 
         public void start()
         {
-            Console.WriteLine("Startet...");
+            LocalisationManager.Localizations.Add(new ENLocalisation());
+            LocalisationManager.Init();
+
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_starting"));
             Console.Title = "LeoConsole -> Starting...";
 
             CurrentWorkingPath = data.SavePath;
@@ -173,21 +177,21 @@ namespace LeoConsole
             }
             else
             {
-                Console.WriteLine("Update übersprungen: LinuxBuild");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_linuxUpdateSkip"));
             }
 
-            Console.WriteLine("Lädt: Users.lcs");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadUser"));
 
             List<User> users = SaveLoad.LoadUsers(data.SavePath);
 
             if (users == null)
             {
-                Console.WriteLine("User.lcs konnte nicht gefunden werden!");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadUser404"));
                 firstStart();
             }
             else
             {
-                Console.WriteLine("Users.lcs erfolgreich geladen");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadUserSuc"));
 
                 reloadPlugins(false);
 
@@ -284,7 +288,7 @@ namespace LeoConsole
             }
             if (!commandExists)
             {
-                Console.WriteLine("Der Befehl '" + properties[0] + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_cantFindCmdFront") + properties[0] + LocalisationManager.GetLocalizationFromKey("lc_cantFindCmdBack"));
             }
 
             foreach(IData data in datas)

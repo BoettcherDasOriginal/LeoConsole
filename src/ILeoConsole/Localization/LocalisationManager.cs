@@ -12,6 +12,14 @@ namespace ILeoConsole.Localization
 
         public static List<ILocalization> Localizations = new List<ILocalization>();
 
+        public static void Init()
+        {
+            foreach(ILocalization l in Localizations)
+            {
+                l.DictionaryInit();
+            }
+        }
+
         /// <summary>
         /// Returns the translation for the given key
         /// </summary>
@@ -23,7 +31,7 @@ namespace ILeoConsole.Localization
             {
                 if(localization.Language == Language)
                 {
-                    for(int i = 0; i < localization.Dictionary.Length; i++)
+                    for(int i = 0; i < localization.Dictionary.Length / 2; i++)
                     {
                         if(localization.Dictionary[i,0] == key)
                         {

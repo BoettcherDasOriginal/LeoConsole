@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ILeoConsole;
 using ILeoConsole.Core;
+using ILeoConsole.Localization;
 
 namespace LeoConsole
 {
@@ -21,11 +22,11 @@ namespace LeoConsole
         {
             User newUser = new User();
 
-            Console.WriteLine("\nUm ein neues Konto zu erstellen, geben sie bitte folgende Informationen ein:");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userNew"));
 
             while (true)
             {
-                Console.Write("Benutzername: ");
+                Console.Write(LocalisationManager.GetLocalizationFromKey("lc_username") + ": ");
                 string userName = Console.ReadLine();
 
                 bool same = false;
@@ -33,7 +34,7 @@ namespace LeoConsole
                 {
                     if (userName == user.name)
                     {
-                        Console.WriteLine("Dieser Benutername ist bereits vergeben!");
+                        Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userNameTaken"));
 
                         same = true;
                         break;
@@ -43,7 +44,7 @@ namespace LeoConsole
                 if (!same) { newUser.name = userName; break; }
             }
 
-            Console.Write("Begrüßungssatz: ");
+            Console.Write(LocalisationManager.GetLocalizationFromKey("lc_greeting") + ": ");
             newUser.begrüßung = Console.ReadLine();
 
             bool passwordCheck = false;
@@ -70,7 +71,7 @@ namespace LeoConsole
                 } while (key != ConsoleKey.Enter);
 
                 Console.WriteLine("");
-                Console.Write("Password bestätigen: ");
+                Console.Write("Confirm Password: ");
                 var passCheck = string.Empty;
                 ConsoleKey keyCheck;
                 do
@@ -97,18 +98,18 @@ namespace LeoConsole
                 }
                 else
                 {
-                    Console.WriteLine("Falsches Passwort!");
+                    Console.WriteLine("Wrong Password!");
                 }
             } while (!passwordCheck);
 
             newUser.root = root;
 
-            Console.WriteLine("\nDas wars. Drücke eine Beliebige Taste um das Konto zu Speichern.");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userFinish"));
             Console.ReadKey();
 
             users.Add(newUser);
             SaveLoad.saveUsers(users, data.SavePath);
-            Console.WriteLine("Drücke eine Beliebige Taste um Leo Console Neuzustarten.");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userReboot"));
             Console.ReadKey();
 
             LeoConsole leoConsole = new LeoConsole();
@@ -164,12 +165,12 @@ namespace LeoConsole
                     }
                     else
                     {
-                        Console.WriteLine("Falsches Password!\n");
+                        Console.WriteLine("Wrong Password!\n");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Der Benutzer '{0}' konnte nicht gefunden werden!\n", username);
+                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userDoesNotExist"));
                 }
 
                 if (result != null)

@@ -8,6 +8,7 @@ using System.Net;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Threading;
+using ILeoConsole.Localization;
 
 namespace LeoConsole
 {
@@ -48,10 +49,10 @@ namespace LeoConsole
 
                         if (third_updateNumber > third_versionNumber)
                         {
-                            Console.WriteLine("Updates verfügbar! \n");
-                            Console.WriteLine("Deine Version: " + version);
-                            Console.WriteLine("Neue Version: " + updateText + "\n");
-                            Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                            Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_updateMsg")} \n");
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateVCurrent") + version);
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateVNew") + updateText + "\n");
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateQ"));
                             string anser = Console.ReadLine();
                             switch (anser)
                             {
@@ -64,7 +65,7 @@ namespace LeoConsole
                                     break;
 
                                 default:
-                                    Console.WriteLine("Weiter ohne Update!");
+                                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateSkip"));
                                     break;
                             }
                         }
@@ -72,10 +73,10 @@ namespace LeoConsole
                         {
                             if (second_updateNumber > second_versionNumber)
                             {
-                                Console.WriteLine("Updates verfügbar! \n");
-                                Console.WriteLine("Deine Version: " + version);
-                                Console.WriteLine("Neue Version: " + updateText + "\n");
-                                Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                                Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_updateMsg")} \n");
+                                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateVCurrent") + version);
+                                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateVNew") + updateText + "\n");
+                                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateQ"));
                                 string anser = Console.ReadLine();
                                 switch (anser)
                                 {
@@ -88,13 +89,13 @@ namespace LeoConsole
                                         break;
 
                                     default:
-                                        Console.WriteLine("Weiter ohne Update!");
+                                        Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateSkip"));
                                         break;
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("Keine Updates Gefunden!");
+                                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateNone"));
                             }
                         }
                     }
@@ -102,10 +103,10 @@ namespace LeoConsole
                     {
                         if (first_updateNumber > first_versionNumber)
                         {
-                            Console.WriteLine("Updates verfügbar! \n");
-                            Console.WriteLine("Deine Version: " + version);
-                            Console.WriteLine("Neue Version: " + updateText + "\n");
-                            Console.WriteLine("Soll das Update Heruntergeladen werden? y/n");
+                            Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_updateMsg")} \n");
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateVCurrent") + version);
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateVNew") + updateText + "\n");
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateQ"));
                             string anser = Console.ReadLine();
                             switch (anser)
                             {
@@ -118,19 +119,19 @@ namespace LeoConsole
                                     break;
 
                                 default:
-                                    Console.WriteLine("Weiter ohne Update!");
+                                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateSkip"));
                                     break;
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Keine Updates Gefunden!");
+                            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateNone"));
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Keine Updates Gefunden!");
+                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateNone"));
                 }
 
                 File.Delete(filepath + "update.txt");
@@ -138,8 +139,8 @@ namespace LeoConsole
 
             catch (Exception e)
             {
-                Console.WriteLine("Die Update Seite konnte nicht ereicht werden! Bitte versuche es später Nochmal");
-                Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateCheck404"));
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_anyKeyContinue"));
                 Console.ReadKey();
             }
         }
@@ -149,26 +150,26 @@ namespace LeoConsole
             string dir = AppDomain.CurrentDomain.BaseDirectory;
             DirectoryInfo installDir = Directory.GetParent(Directory.GetParent(dir).FullName);
 
-            Console.WriteLine("Starte Update...");
-            Console.WriteLine("Installations Ordner: " + installDir.FullName);
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateStart"));
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateInstallFolder") + installDir.FullName);
 
             try
             {
-                Console.WriteLine("Starte Download der neuen Version...");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateStartDown"));
 
                 string zipFilePath = Path.Combine(data.DownloadPath, $"LeoConsole_v{newVersion}.zip");
 
                 WebClient webClient = new WebClient();
                 webClient.DownloadFile("https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/LeoConsole_v" + newVersion + ".zip", zipFilePath);
 
-                Console.WriteLine("'" + zipFilePath + "' erfolgreich Heruntergeladen");
-                Console.WriteLine("Extrahiere Zip Datei...");
+                Console.WriteLine("'" + zipFilePath + LocalisationManager.GetLocalizationFromKey("lc_updateDownSuc"));
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateUnZip"));
                 ZipFile.ExtractToDirectory(zipFilePath, Path.Combine(installDir.FullName, $"LeoConsole_v{newVersion}"));
 
                 File.Delete(zipFilePath);
 
-                Console.WriteLine("'data/' könnte evtl. nicht mit der neuen Version kompatiebel sein.");
-                Console.WriteLine("Soll 'data/' zur neuen Version Kopiertwerden? y/n\n");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateDataInfo"));
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateDataQ"));
                 do
                 {
                     Console.Write(">");
@@ -177,7 +178,7 @@ namespace LeoConsole
                     if (text == "y")
                     {
                         Tools.DirectoryCopy(data.SavePath, Path.Combine(installDir.FullName, $"LeoConsole_v{newVersion}", "data"), true);
-                        Console.WriteLine("'data/' erfolgreich Kopiert!");
+                        Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateDataCopySuc"));
                         break;
                     }
                     else if (text == "n")
@@ -186,12 +187,12 @@ namespace LeoConsole
                     }
                     else
                     {
-                        Console.WriteLine("Der Befehl '" + text + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                        Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_cantFindCmdFront") + text + LocalisationManager.GetLocalizationFromKey("lc_cantFindCmdBack"));
                     }
 
                 } while (true);
 
-                Console.WriteLine("Fertig!");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_complete"));
 
                 Process LCProcess = new Process();
 
@@ -208,8 +209,8 @@ namespace LeoConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine("Update konnte nicht Heruntergeladen werden!");
-                Console.WriteLine("Drücke eine beliebiege Taste um vortzufahren");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_updateFail"));
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_anyKeyContinue"));
                 Console.ReadKey();
             }
 

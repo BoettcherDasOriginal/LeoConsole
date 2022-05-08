@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ILeoConsole;
 using ILeoConsole.Core;
 using ILeoConsole.Plugin;
+using ILeoConsole.Localization;
 
 namespace LeoConsole
 {
@@ -71,7 +72,7 @@ namespace LeoConsole
     public class HELP : ICommand
     {
         public string Name { get { return "help"; } }
-        public string Description { get { return "Zeigt die Hilfe"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_helpCmdInfo"); } }
         public Action CommandFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -91,7 +92,7 @@ namespace LeoConsole
     public class UPDATE : ICommand
     {
         public string Name { get { return "update"; } }
-        public string Description { get { return "sucht nach Updates"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_updateCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -104,7 +105,7 @@ namespace LeoConsole
     public class EXIT : ICommand
     {
         public string Name { get { return "exit"; } }
-        public string Description { get { return "Schließt Leo Console"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_exitCmdInfo"); } }
         public Action CommandFunktion { get { return () => Exit(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -122,20 +123,19 @@ namespace LeoConsole
     public class REBOOT : ICommand
     {
         public string Name { get { return "reboot"; } }
-        public string Description { get { return "startet Leo Console neu"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_rebootCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            Console.WriteLine("Bist du sicher das du Leo Console Neustarten möchtest? Y/N");
+            Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_rebootCmdDialog"));
             Console.Write(">");
             string anser = Console.ReadLine();
 
             switch (anser.ToLower())
             {
                 default:
-                    Console.WriteLine("'" + anser + "' ist keine gültige Antwort!");
                     break;
 
                 case "n":
@@ -152,7 +152,7 @@ namespace LeoConsole
     public class RELOAD : ICommand
     {
         public string Name { get { return "reload"; } }
-        public string Description { get { return "lädt alle Plugins neu"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_reloadCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -165,7 +165,7 @@ namespace LeoConsole
     public class CREDITS : ICommand
     {
         public string Name { get { return "credits"; } }
-        public string Description { get { return "zeigt die Credits"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_creditsCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -183,7 +183,7 @@ namespace LeoConsole
     public class LOGOUT : ICommand
     {
         public string Name { get { return "logout"; } }
-        public string Description { get { return "meldet den aktuellen Benutzer ab"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_logoutCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -195,7 +195,7 @@ namespace LeoConsole
 
             if (users == null)
             {
-                Console.WriteLine("User.lcs konnte nicht gefunden werden!");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadUser404"));
                 Commands.currrentConsole.firstStart();
             }
             else
@@ -208,7 +208,7 @@ namespace LeoConsole
     public class NEWUSERC : ICommand
     {
         public string Name { get { return "newUser"; } }
-        public string Description { get { return "erstellt einen neuen User"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_newUserCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -220,7 +220,7 @@ namespace LeoConsole
             }
             else
             {
-                Console.WriteLine("Zum erstellen eines neuen Users, benötigst du Root rechte!");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_newUserCmdRootE"));
             }
         }
     }
@@ -228,15 +228,15 @@ namespace LeoConsole
     public class WHOAMI : ICommand
     {
         public string Name { get { return "whoami"; } }
-        public string Description { get { return "zeigt deine User Informationen"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_whoamiCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            Console.WriteLine("Benutzername: " + Commands.consoleData.User.name);
-            Console.WriteLine("Begrüßung: " + Commands.consoleData.User.begrüßung);
-            Console.WriteLine("Root: " + Commands.consoleData.User.root.ToString());
+            Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_username")}: " + Commands.consoleData.User.name);
+            Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_greeting")}: " + Commands.consoleData.User.begrüßung);
+            Console.WriteLine($"Root: " + Commands.consoleData.User.root.ToString());
         }
     }
 
@@ -390,7 +390,7 @@ namespace LeoConsole
     public class PLUGININFO : ICommand
     {
         public string Name { get { return "pkginfo"; } }
-        public string Description { get { return "zeigt alle geladene Plugins"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_pkginfoCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -410,7 +410,7 @@ namespace LeoConsole
     public class LS : ICommand
     {
         public string Name { get { return "ls"; } }
-        public string Description { get { return "Displays a list of files and directories"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_lsCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -472,7 +472,7 @@ namespace LeoConsole
     public class CD : ICommand
     {
         public string Name { get { return "cd"; } }
-        public string Description { get { return "cd"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_cdCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -501,7 +501,7 @@ namespace LeoConsole
                 }
                 else
                 {
-                    Console.WriteLine("Der Ordner '" + path + "' ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
+                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_cantFindPathFront")+ path + LocalisationManager.GetLocalizationFromKey("lc_cantFindPathBack"));
                 }
             }
         }
@@ -510,7 +510,7 @@ namespace LeoConsole
     public class MKDIR : ICommand
     {
         public string Name { get { return "mkdir"; } }
-        public string Description { get { return "create a directory"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_mkdirCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -518,7 +518,7 @@ namespace LeoConsole
         {
             if (_InputProperties.Length < 2)
             {
-                Console.WriteLine("you need to provide at least one directory name");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_mkdirCmdPropE"));
                 return;
             }
             for (int i = 1; i < _InputProperties.Length; i++)
@@ -547,7 +547,7 @@ namespace LeoConsole
     public class RMTRASH : ICommand
     {
         public string Name { get { return "rmtrash"; } }
-        public string Description { get { return "remove a file or a directory"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -555,7 +555,7 @@ namespace LeoConsole
         {
             if (_InputProperties.Length < 2)
             {
-                Console.WriteLine("you need to provide at least one directory or file name");
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdPropE"));
                 return;
             }
             for (int i = 1; i < _InputProperties.Length; i++)
@@ -580,29 +580,29 @@ namespace LeoConsole
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(_path);
                     Console.WriteLine(directoryInfo.FullName);
-                    bool yes = LConsole.YesNoDialog("Are you sure you want to delete this directory and all of its contents?", false);
+                    bool yes = LConsole.YesNoDialog(LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdDialogD"), false);
                     if (yes)
                     {
                         Directory.Move(_path, Path.Combine(trashPath, directoryInfo.Name));
                         Console.WriteLine("removed " + directoryInfo.FullName);
                     }
-                    else { Console.WriteLine("deletion canceled"); }
+                    else { Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdCanceled")); }
                 }
                 else if (File.Exists(_path))
                 {
                     FileInfo fileInfo = new FileInfo(_path);
                     Console.WriteLine(fileInfo.FullName);
-                    bool yes = LConsole.YesNoDialog("Are you sure you want to delete this file?", false);
+                    bool yes = LConsole.YesNoDialog(LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdDialogF"), false);
                     if (yes)
                     {
                         File.Move(_path, Path.Combine(trashPath, fileInfo.Name));
                         Console.WriteLine("removed " + path);
                     }
-                    else { Console.WriteLine("deletion canceled"); }
+                    else { Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdCanceled")); }
                 }
                 else
                 {
-                    Console.WriteLine("File or directory does not exist!");
+                    Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_fodDoesNotExist"));
                 }
             }
             catch (Exception e)

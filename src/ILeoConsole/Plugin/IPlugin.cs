@@ -36,6 +36,11 @@ namespace ILeoConsole.Plugin
         void PluginInit();
 
         /// <summary>
+        /// RegisterCommands() is called before LeoConsole registers your commands
+        /// </summary>
+        void RegisterCommands();
+
+        /// <summary>
         /// PluginMain() is called when LeoConsole has finished the starting process
         /// </summary>
         void PluginMain();

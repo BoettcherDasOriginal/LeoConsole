@@ -98,6 +98,11 @@ namespace LeoConsole
             }
             Console.WriteLine($"{datas.Count} {LocalisationManager.GetLocalizationFromKey("lc_loadDatasSuc")}");
 
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                plugin.RegisterCommands();
+            }
+
             Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_loadCommands"));
             DefaultCommands();
             foreach (IPlugin plugin in PluginLoader.Plugins)

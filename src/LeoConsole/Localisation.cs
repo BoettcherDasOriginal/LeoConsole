@@ -68,7 +68,7 @@ namespace LeoConsole
                 {"lc_dpkgUpdateStart","Searching for default plugins..." },
                 {"lc_dpkgUpdateFail404","The default plugin page could not be reached! Please try again later." },
                 {"lc_dpkgUpdateEndDown"," plugins installed. Please use 'reload' to activate there features." },
-                {"lc_dpkgUpdateEndAll", "All default plugins installed" },
+                {"lc_dpkgUpdateEndAll", "All default plugins installed!" },
 
                 //User
 

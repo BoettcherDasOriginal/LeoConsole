@@ -63,6 +63,13 @@ namespace LeoConsole
                 {"lc_updateDataCopySuc","'data/' successfully copied!" },
                 {"lc_updateFail","Update could not be downloaded!" },
 
+                //DefaultPlugins
+
+                {"lc_dpkgUpdateStart","Searching for default plugins..." },
+                {"lc_dpkgUpdateFail404","The default plugin page could not be reached! Please try again later." },
+                {"lc_dpkgUpdateEndDown"," plugins installed. Please use 'reload' to activate there features." },
+                {"lc_dpkgUpdateEndAll", "All default plugins installed" },
+
                 //User
 
                 {"lc_userNew","\nTo create a new account, please enter the following information:" },

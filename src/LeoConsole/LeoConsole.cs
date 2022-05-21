@@ -117,6 +117,8 @@ namespace LeoConsole
             }
             Console.WriteLine($"{commands.Count} {LocalisationManager.GetLocalizationFromKey("lc_loadCommandsSuc")}");
 
+            DefaultPluginManager.UpdateDefaultPlugins();
+
             foreach (IPlugin plugin in PluginLoader.Plugins)
             {
                 plugin.PluginMain();

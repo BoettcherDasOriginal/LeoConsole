@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using ILeoConsole.Localization;
 using ILeoConsole.Plugin;
+using ILeoConsole.Core;
 
 namespace LeoConsole
 {
@@ -88,14 +89,32 @@ namespace LeoConsole
                     }
                 }
 
+                //Get Disabeled Plugins
+                string configPath = Path.Combine(Commands.consoleData.SavePath, "var", "LeoConsole", "config");
+                string filePath = Path.Combine(configPath, "dpkg.txt");
+                string[] disabeledPlugins;
+                if (!Directory.Exists(configPath)) { Directory.CreateDirectory(configPath); }
+                if (File.Exists(filePath))
+                {
+                    string configText = File.ReadAllText(filePath);
+                    disabeledPlugins = Config.GetCategory(configText, "pkgDisabeled");
+                }
+                else
+                {
+                    disabeledPlugins = new string[] { };
+                }
+
                 //Download missing Plugins
                 int downloadedPkgs = 0;
                 foreach (string name in DefaultPlugins.Keys)
                 {
-                    string url = null;
-                    DefaultPlugins.TryGetValue(name, out url);
-                    PKGDownload(url, name);
-                    downloadedPkgs++;
+                    if (!disabeledPlugins.Contains(name))
+                    {
+                        string url = null;
+                        DefaultPlugins.TryGetValue(name, out url);
+                        PKGDownload(url, name);
+                        downloadedPkgs++;
+                    }
                 }
 
                 //End

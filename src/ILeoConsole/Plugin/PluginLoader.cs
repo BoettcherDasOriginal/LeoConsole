@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using ILeoConsole.Plugin;
 using ILeoConsole.Localization;
+using ILeoConsole.Core;
 
 namespace ILeoConsole.Plugin
 {
@@ -48,6 +49,22 @@ namespace ILeoConsole.Plugin
 
         void GetDlls(string path)
         {
+            //Get Disabeled DLLs
+            string configPath = Path.Combine(path, "..", "var","LeoConsole","config");
+            string filePath = Path.Combine(configPath, "pkg.txt");
+            string[] disabeledDlls;
+            if (!Directory.Exists(configPath)) { Directory.CreateDirectory(configPath); }
+            if (File.Exists(filePath))
+            {
+                string configText = File.ReadAllText(filePath);
+                disabeledDlls = Config.GetCategory(configText, "pkgDisabeled");
+            }
+            else
+            {
+                disabeledDlls = new string[] { };
+            }
+
+            //Get Dll
             if (Directory.Exists(path))
             {
                 string[] files = Directory.GetFiles(path);
@@ -55,7 +72,11 @@ namespace ILeoConsole.Plugin
                 {
                     if (file.EndsWith(".dll"))
                     {
-                        Assembly.LoadFile(Path.GetFullPath(file));
+                        FileInfo fileInfo = new FileInfo(file);
+                        if (!disabeledDlls.Contains(fileInfo.Name.Replace(".dll","")))
+                        {
+                            Assembly.LoadFile(Path.GetFullPath(file));
+                        }
                     }
                 }
 

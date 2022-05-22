@@ -47,6 +47,22 @@ namespace LeoConsole
             commands = new List<ICommand>();
             datas = new List<IData>();
 
+            //Get Language
+            string configPath = Path.Combine(data.SavePath, "var", "LeoConsole", "config");
+            string filePath = Path.Combine(configPath, "user.txt");
+            string lang;
+            if (!Directory.Exists(configPath)) { Directory.CreateDirectory(configPath); }
+            if (File.Exists(filePath))
+            {
+                string configText = File.ReadAllText(filePath);
+                lang = Config.GetCategory(configText, "language")[0];
+            }
+            else { lang = "en"; }
+
+            LocalisationManager.Language = lang;
+
+            //reload
+
             string PluginLoaderPath = Path.Combine(data.SavePath, "plugins");
 
             if (!Directory.Exists(PluginLoaderPath))

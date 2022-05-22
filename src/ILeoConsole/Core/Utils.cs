@@ -19,9 +19,14 @@ namespace ILeoConsole.Core
         /// <returns></returns>
         public static string GetTextBetweenTags(string text, string start_tag, string end_tag)
         {
-            string[] test1 = text.Split(start_tag);
-            //string test2 = test1.Split(end_tag)[0];
-            return text.Split(start_tag)[1].Split(end_tag)[0];
+            try
+            {
+                return text.Split(start_tag)[1].Split(end_tag)[0];
+            }
+            catch (Exception e)
+            {
+                return text;
+            }
         }
 
         /// <summary>

@@ -106,6 +106,8 @@ namespace LeoConsole
                 {"lc_cdCmdInfo","cd" },
                 {"lc_mkdirCmdInfo","create a directory" },
                 {"lc_rmtrashCmdInfo","remove a file or a directory" },
+                {"lc_langCmdInfo","sets the localisation language" },
+                {"lc_dpkgCmdInfo","'default plugin' settings" },
 
                 //Commands
 
@@ -115,7 +117,9 @@ namespace LeoConsole
                 {"lc_rmtrashCmdPropE","You need to provide at least one directory or file name" },
                 {"lc_rmtrashCmdDialogD","Are you sure you want to delete this directory and all of its contents?" },
                 {"lc_rmtrashCmdDialogF","Are you sure you want to delete this file?" },
-                {"lc_rmtrashCmdCanceled","deletion canceled" }
+                {"lc_rmtrashCmdCanceled","deletion canceled" },
+                {"lc_dpkgCmdDpkg","Default Plugins:" },
+                {"lc_dpkgCmdDisabeled","Disabeled:" }
             };
         }
     }

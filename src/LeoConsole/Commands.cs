@@ -613,4 +613,214 @@ namespace LeoConsole
     }
 
     #endregion
+
+    #region SETTINGS
+
+    public class LANG : ICommand
+    {
+        public string Name { get { return "lang"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_langCmdInfo"); } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if(InputProperties.Length > 1)
+            {
+                LocalisationManager.Language = InputProperties[1];
+            }
+            else
+            {
+                LocalisationManager.Language = "en";
+            }
+
+            string configPath = Path.Combine(Commands.consoleData.SavePath, "var", "LeoConsole", "config");
+            string filePath = Path.Combine(configPath, "user.txt");
+
+            string newConfigText = $"#language:\n{LocalisationManager.Language}\n#end";
+
+            File.WriteAllText(filePath, newConfigText);
+        }
+    }
+
+    public class DPKG : ICommand
+    {
+        static string url = "https://raw.githubusercontent.com/BoettcherDasOriginal/LeoConsole/main/DefaultPkgList.txt";
+        static string DirPath = Path.Combine(Commands.consoleData.SavePath, "pkg");
+        static string filePKGListName = "DefaultPkgList.txt";
+        static Dictionary<string, string> DefaultPlugins;
+
+        public string Name { get { return "dpkg"; } }
+        public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_dpkgCmdInfo"); } }
+        public Action CommandFunktion { get { return () => Command(); } }
+        private string[] _InputProperties;
+        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public void Command()
+        {
+            if(InputProperties.Length > 1)
+            {
+                switch (InputProperties[1])
+                {
+                    case "disabel":
+                        if(InputProperties.Length > 2) { DisabelDpkg(false,InputProperties[2]); }
+                        break;
+
+                    case "enabel":
+                        if (InputProperties.Length > 2) { DisabelDpkg(true, InputProperties[2]); }
+                        break;
+                }
+            }
+            else
+            {
+                GetList();
+            }
+        }
+
+        void DisabelDpkg(bool status,string name)
+        {
+            if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
+
+            //Get Disabeled Plugins
+            string configPath = Path.Combine(Commands.consoleData.SavePath, "var", "LeoConsole", "config");
+            string filePath = Path.Combine(configPath, "dpkg.txt");
+            List<string> disabeledPlugins;
+            if (!Directory.Exists(configPath)) { Directory.CreateDirectory(configPath); }
+            if (File.Exists(filePath))
+            {
+                string configText = File.ReadAllText(filePath);
+                disabeledPlugins = Config.GetCategory(configText, "pkgDisabeled").ToList();
+            }
+            else
+            {
+                disabeledPlugins = new List<string>();
+            }
+
+            //Enabel/Disabel
+            if (status)
+            {
+                if (disabeledPlugins.Contains(name)) { disabeledPlugins.Remove(name); }
+            }
+            else
+            {
+                if(!disabeledPlugins.Contains(name)) { disabeledPlugins.Add(name); }
+            }
+
+            //Write
+            if (File.Exists(filePath))
+            {
+                if(disabeledPlugins.Contains("#end")) { disabeledPlugins.Remove("#end"); }
+
+                string configText = File.ReadAllText(filePath);
+                string replacement = "#pkgDisabeled:\n";
+
+                foreach(string plugin in disabeledPlugins)
+                {
+                    replacement = replacement + plugin + "\n";
+                }
+                replacement = replacement + "#";
+
+                string newConfigText = Utils.ReplaceTextBetweenTags(configText, replacement, "#pkgDisabeled:", "#end");
+                File.WriteAllText(filePath, newConfigText);
+            }
+            else
+            {
+                string newConfigText = "#pkgDisabeled:\n";
+
+                foreach (string plugin in disabeledPlugins)
+                {
+                    newConfigText = newConfigText + plugin + "\n";
+                }
+                newConfigText = newConfigText + "#end";
+
+                File.WriteAllText(filePath, newConfigText);
+            }
+        }
+
+        void GetList()
+        {
+            if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
+
+            DefaultPlugins = new Dictionary<string, string>();
+
+            try
+            {
+                //Dwonload List
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(url, Path.Combine(DirPath, filePKGListName));
+
+                //Get Default Plugins from List
+                foreach (string pkgListLine in File.ReadLines(Path.Combine(DirPath, filePKGListName)))
+                {
+                    string[] pkgListProperties = pkgListLine.Split(' ');
+                    if (pkgListProperties.Length > 0)
+                    {
+                        string dUrl = null;
+                        string dName = null;
+
+                        switch (pkgListProperties[0])
+                        {
+                            case "pkg":
+                                for (int i = 1; i < pkgListProperties.Length; i++)
+                                {
+                                    string[] pkgProperties = pkgListProperties[i].Split(':');
+
+                                    if (pkgProperties.Length > 0)
+                                    {
+                                        switch (pkgProperties[0])
+                                        {
+                                            case "-n":
+                                                dName = pkgProperties[1];
+                                                break;
+
+                                            case "-d":
+                                                dUrl = pkgProperties[1];
+                                                break;
+                                        }
+                                    }
+                                }
+
+                                if (dUrl != null) { dUrl = "https://" + dUrl; } else { dUrl = null; }
+
+                                DefaultPlugins.Add(dName, dUrl);
+
+                                dUrl = null;
+                                dName = null;
+
+                                break;
+                        }
+                    }
+                }
+
+                //Get Disabeled Plugins
+                string configPath = Path.Combine(Commands.consoleData.SavePath, "var", "LeoConsole", "config");
+                string filePath = Path.Combine(configPath, "dpkg.txt");
+                List<string> disabeledPlugins;
+                if (!Directory.Exists(configPath)) { Directory.CreateDirectory(configPath); }
+                if (File.Exists(filePath))
+                {
+                    string configText = File.ReadAllText(filePath);
+                    disabeledPlugins = Config.GetCategory(configText, "pkgDisabeled").ToList();
+                }
+                else
+                {
+                    disabeledPlugins = new List<string>();
+                }
+
+                if (disabeledPlugins.Contains("#end")) { disabeledPlugins.Remove("#end"); }
+
+                //Print
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_dpkgCmdDpkg"));
+                foreach(string name in DefaultPlugins.Keys) { Console.WriteLine(name); }
+                Console.WriteLine();
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_dpkgCmdDisabeled"));
+                foreach(string name in disabeledPlugins) { Console.WriteLine(name); }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_dpkgUpdateFail404"));
+            }
+        }
+    }
+
+    #endregion
 }

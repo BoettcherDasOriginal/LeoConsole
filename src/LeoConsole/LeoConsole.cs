@@ -341,6 +341,8 @@ namespace LeoConsole
             commands.Add(new CD());
             commands.Add(new MKDIR());
             commands.Add(new RMTRASH());
+            commands.Add(new LANG());
+            commands.Add(new DPKG());
         }
     }
 }

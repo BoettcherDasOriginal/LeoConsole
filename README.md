@@ -3,13 +3,13 @@
 LeoConsole is a console app that enables me to program quickly and easily small features and use them on my PC.<br>
 It is written in C# .NET 6
 
-# Current Features
+## Getting Started
+- [Install LeoConsole]()
+- [LeoConsole Documentation]()
+- [Plugin Tutorial]()
 
-* Package Manager -> Easily download and install new Features for LeoConsole
-* Multiple Users -> I don't know why xD
-* Auto Update -> Automatically downloads and install the latest version
-* And some more coming soon!
+## Overview
+Comming soon...
 
-# Need help?
-Check out the [wiki](https://github.com/BoettcherDasOriginal/LeoConsole/wiki)!<br>
-Or open a new discussion!
+## Current News
+Comming soon...

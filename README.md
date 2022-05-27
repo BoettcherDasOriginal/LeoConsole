@@ -17,7 +17,9 @@ Thanks to LeoConsole you can quickly and easily develop smaller console function
 With the functions provided by ILeoConsole, colored text output, auto-completion or automatic localization are very easy!
 
 ## Current News
-Comming soon...
+- None
+
+You can find all the news [here](https://github.com/BoettcherDasOriginal/LeoConsole/discussions/categories/news).
 
 ## Need help?
 Check out the [wiki](https://github.com/BoettcherDasOriginal/LeoConsole/wiki)!<br>

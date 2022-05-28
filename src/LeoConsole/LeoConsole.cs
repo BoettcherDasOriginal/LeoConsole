@@ -162,12 +162,12 @@ namespace LeoConsole
                 Console.Write(">");
                 string text = Console.ReadLine();
 
-                if (text == "newKonto")
+                if (text == "newAccount")
                 {
                     userFunctions.newKonto(true, new List<User>());
                     break;
                 }
-                else if (text == "helpKonto")
+                else if (text == "helpAccount")
                 {
                     Console.WriteLine($"\n{LocalisationManager.GetLocalizationFromKey("lc_firstStartHelp1")}");
                     Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_firstStartHelp2"));

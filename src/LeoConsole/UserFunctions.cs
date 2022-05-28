@@ -104,6 +104,7 @@ namespace LeoConsole
 
             newUser.root = root;
 
+            Console.WriteLine();
             Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userFinish"));
             Console.ReadKey();
 

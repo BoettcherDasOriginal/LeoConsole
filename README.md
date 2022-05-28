@@ -5,7 +5,7 @@ It is written in C# 10 under .NET 6
 
 ## Getting Started
 - [Install LeoConsole](https://github.com/BoettcherDasOriginal/LeoConsole/releases/latest)
-- [LeoConsole Documentation](https://github.com/BoettcherDasOriginal/LeoConsole/wiki)
+- [LeoConsole Documentation](https://github.com/BoettcherDasOriginal/LeoConsole/wiki/Documetation)
 - [Plugin Tutorial](https://github.com/BoettcherDasOriginal/LeoConsole/wiki)
 
 ## Overview

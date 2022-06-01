@@ -24,6 +24,11 @@ namespace ILeoConsole.Core
         public Action CommandFunktion { get; }
 
         /// <summary>
+        /// The Help Information
+        /// </summary>
+        public Action HelpFunktion { get; }
+
+        /// <summary>
         /// The given parameter from the user
         /// </summary>
         public string[] InputProperties { get; set; }

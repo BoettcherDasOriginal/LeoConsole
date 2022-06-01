@@ -44,11 +44,16 @@ namespace LeoConsole
         public string Name { get { return ""; } }
         public string Description { get { return ""; } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             
+        }
+        public void Help()
+        {
+
         }
     }
 
@@ -61,11 +66,16 @@ namespace LeoConsole
         public string Name { get { return ""; } }
         public string Description { get { return "Empty ;D"; } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Console.WriteLine("");
+        }
+        public void Help()
+        {
+            Console.WriteLine("Yes, i am a command too! ;)");
         }
     }
 
@@ -74,6 +84,7 @@ namespace LeoConsole
         public string Name { get { return "help"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_helpCmdInfo"); } }
         public Action CommandFunktion { get { return () => Help(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
 
@@ -94,11 +105,16 @@ namespace LeoConsole
         public string Name { get { return "update"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_updateCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Update.CheckForUpdate(Commands.currrentConsole.data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", Commands.consoleData.DownloadPath, Commands.currrentConsole.data.version);
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
     }
 
@@ -107,6 +123,7 @@ namespace LeoConsole
         public string Name { get { return "exit"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_exitCmdInfo"); } }
         public Action CommandFunktion { get { return () => Exit(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Exit()
@@ -118,6 +135,10 @@ namespace LeoConsole
 
             Environment.Exit(0);
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     public class REBOOT : ICommand
@@ -125,6 +146,7 @@ namespace LeoConsole
         public string Name { get { return "reboot"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_rebootCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -147,6 +169,10 @@ namespace LeoConsole
                     break;
             }
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     public class RELOAD : ICommand
@@ -154,11 +180,16 @@ namespace LeoConsole
         public string Name { get { return "reload"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_reloadCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Commands.currrentConsole.reloadPlugins(true);
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
     }
 
@@ -167,12 +198,17 @@ namespace LeoConsole
         public string Name { get { return "credits"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_creditsCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             LConsole.WriteLine($"LeoConsole v{Commands.currrentConsole.data.version}");
             LConsole.WriteLine("(c) 2021-2022, BoettcherDasOriginal");
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
     }
 
@@ -185,6 +221,7 @@ namespace LeoConsole
         public string Name { get { return "logout"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_logoutCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -203,6 +240,10 @@ namespace LeoConsole
                 Commands.currrentConsole.prepareConsole(users);
             }
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     public class NEWUSERC : ICommand
@@ -210,6 +251,7 @@ namespace LeoConsole
         public string Name { get { return "newUser"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_newUserCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -223,6 +265,10 @@ namespace LeoConsole
                 Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_newUserCmdRootE"));
             }
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     public class WHOAMI : ICommand
@@ -230,6 +276,7 @@ namespace LeoConsole
         public string Name { get { return "whoami"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_whoamiCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -238,6 +285,10 @@ namespace LeoConsole
             Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_greeting")}: " + Commands.consoleData.User.begrüßung);
             Console.WriteLine($"Root: " + Commands.consoleData.User.root.ToString());
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     #endregion
@@ -245,6 +296,7 @@ namespace LeoConsole
     #region PKG COMMANDS
 
     #region OLD
+    /*
     public class PKGCOMMAND : ICommand
     {
         string url = "https://raw.githubusercontent.com/BoettcherDasOriginal/LeoConsole/main/PackageList.txt";
@@ -384,7 +436,7 @@ namespace LeoConsole
                 Console.WriteLine("Es ist ein Fehler beim updaten der PackageList aufgetaucht!\nBitte versuche es später nocheinmal!");
             }
         }
-    }
+    }*/
     #endregion
 
     public class PLUGININFO : ICommand
@@ -392,6 +444,7 @@ namespace LeoConsole
         public string Name { get { return "pkginfo"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_pkginfoCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -400,6 +453,10 @@ namespace LeoConsole
             {
                 LConsole.WriteLine(plugin.Name + " => " + plugin.Explanation);
             }
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
     }
 
@@ -412,6 +469,7 @@ namespace LeoConsole
         public string Name { get { return "ls"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_lsCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -426,6 +484,10 @@ namespace LeoConsole
                 ls(_InputProperties[i]);
                 Console.Write("\n");
             }
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
 
         private void ls(string directory)
@@ -474,6 +536,7 @@ namespace LeoConsole
         public string Name { get { return "cd"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_cdCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -505,6 +568,10 @@ namespace LeoConsole
                 }
             }
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     public class MKDIR : ICommand
@@ -512,6 +579,7 @@ namespace LeoConsole
         public string Name { get { return "mkdir"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_mkdirCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -526,6 +594,10 @@ namespace LeoConsole
                 mkdir(_InputProperties[i]);
                 Console.Write("\n");
             }
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
 
         private void mkdir(string directory)
@@ -549,6 +621,7 @@ namespace LeoConsole
         public string Name { get { return "rmtrash"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -563,6 +636,10 @@ namespace LeoConsole
                 rmtrash(_InputProperties[i]);
                 Console.Write("\n");
             }
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
 
         private void rmtrash(string path)
@@ -621,6 +698,7 @@ namespace LeoConsole
         public string Name { get { return "lang"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_langCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -641,6 +719,10 @@ namespace LeoConsole
 
             File.WriteAllText(filePath, newConfigText);
         }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
+        }
     }
 
     public class DPKG : ICommand
@@ -653,6 +735,7 @@ namespace LeoConsole
         public string Name { get { return "dpkg"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_dpkgCmdInfo"); } }
         public Action CommandFunktion { get { return () => Command(); } }
+        public Action HelpFunktion { get { return () => Help(); } }
         private string[] _InputProperties;
         public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
@@ -674,6 +757,10 @@ namespace LeoConsole
             {
                 GetList();
             }
+        }
+        public void Help()
+        {
+            Console.WriteLine("comming soon...");
         }
 
         void DisabelDpkg(bool status,string name)

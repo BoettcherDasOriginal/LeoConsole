@@ -1,4 +1,11 @@
  # LeoConsole
+ [![Release](https://img.shields.io/github/v/release/BoettcherDasOriginal/LeoConsole)](https://github.com/BoettcherDasOriginal/LeoConsole/releases/latest)
+[![Top language](https://img.shields.io/github/languages/top/BoettcherDasOriginal/LeoConsole)](https://github.com/BoettcherDasOriginal/LeoConsole/search?l=C%23)
+[![License](https://img.shields.io/github/license/BoettcherDasOriginal/LeoConsole)](https://github.com/BoettcherDasOriginal/LeoConsole/blob/main/LICENSE)
+[![Issues](https://img.shields.io/github/issues/BoettcherDasOriginal/LeoConsole)](https://github.com/BoettcherDasOriginal/LeoConsole/issues)
+[![Pull requests](https://img.shields.io/github/issues-pr/BoettcherDasOriginal/LeoConsole)](https://github.com/BoettcherDasOriginal/LeoConsole/pulls)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/BoettcherDasOriginal/LeoConsole)](https://github.com/BoettcherDasOriginal/LeoConsole/commits/main)
+
 LeoConsole is a terminal with many features!
 It allows you to quickly and easily program smaller or larger console functions or use those of others.
 It is written in C# 10 under .NET 6

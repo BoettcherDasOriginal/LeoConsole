@@ -28,6 +28,9 @@ With the functions provided by ILeoConsole, colored text output, auto-completion
 
 You can find all the news [here](https://github.com/BoettcherDasOriginal/LeoConsole/discussions/categories/news).
 
+## Other Projects around LeoConsole
+A list of awesome projects around LeoConsole can be found [here](https://github.com/alexcoder04/awesome-leoconsole)!
+
 ## Need help?
 Check out the [wiki](https://github.com/BoettcherDasOriginal/LeoConsole/wiki)!<br>
 Or open a new discussion!

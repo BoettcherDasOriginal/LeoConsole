@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeoConsole", "LeoConsole\LeoConsole.csproj", "{83495B5C-4807-49B7-A8DD-5F855F81B051}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeoConsole", "LeoConsole\LeoConsole.csproj", "{83495B5C-4807-49B7-A8DD-5F855F81B051}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ILeoConsole", "ILeoConsole\ILeoConsole.csproj", "{E495A6D1-D9DA-4835-8D10-DDE579CB0E4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ILeoConsole", "ILeoConsole\ILeoConsole.csproj", "{E495A6D1-D9DA-4835-8D10-DDE579CB0E4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

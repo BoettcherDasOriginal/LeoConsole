@@ -712,12 +712,19 @@ namespace LeoConsole
                 LocalisationManager.Language = "en";
             }
 
+            /*
             string configPath = Path.Combine(Commands.consoleData.SavePath, "var", "LeoConsole", "config");
             string filePath = Path.Combine(configPath, "user.txt");
 
             string newConfigText = $"#language:\n{LocalisationManager.Language}\n#end";
 
             File.WriteAllText(filePath, newConfigText);
+            */
+
+            string configPath = Config.GetConfigPath(Commands.consoleData.SavePath, "LeoConsole/config");
+            string newConfigText = $"#language:\n{LocalisationManager.Language}\n#end";
+            Config.WriteConfig(configPath, "user.txt", newConfigText);
+
         }
         public void Help()
         {

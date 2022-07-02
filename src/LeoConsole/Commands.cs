@@ -43,10 +43,10 @@ namespace LeoConsole
     {
         public string Name { get { return ""; } }
         public string Description { get { return ""; } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             
@@ -65,10 +65,10 @@ namespace LeoConsole
     {
         public string Name { get { return ""; } }
         public string Description { get { return "Empty ;D"; } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Console.WriteLine("");
@@ -83,10 +83,10 @@ namespace LeoConsole
     {
         public string Name { get { return "help"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_helpCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Help(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Help(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
 
         public void Help()
         {
@@ -104,10 +104,10 @@ namespace LeoConsole
     {
         public string Name { get { return "update"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_updateCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Update.CheckForUpdate(Commands.currrentConsole.data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", Commands.consoleData.DownloadPath, Commands.currrentConsole.data.version);
@@ -122,10 +122,10 @@ namespace LeoConsole
     {
         public string Name { get { return "exit"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_exitCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Exit(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Exit(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Exit()
         {
             foreach (IPlugin plugin in PluginLoader.Plugins)
@@ -145,10 +145,10 @@ namespace LeoConsole
     {
         public string Name { get { return "reboot"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_rebootCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_rebootCmdDialog"));
@@ -179,10 +179,10 @@ namespace LeoConsole
     {
         public string Name { get { return "reload"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_reloadCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Commands.currrentConsole.reloadPlugins(true);
@@ -197,10 +197,10 @@ namespace LeoConsole
     {
         public string Name { get { return "credits"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_creditsCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             LConsole.WriteLine($"LeoConsole v{Commands.currrentConsole.data.version}");
@@ -220,10 +220,10 @@ namespace LeoConsole
     {
         public string Name { get { return "logout"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_logoutCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             LConsole.WriteLine("§4logout\n");
@@ -250,10 +250,10 @@ namespace LeoConsole
     {
         public string Name { get { return "newUser"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_newUserCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             if (Commands.consoleData.User.root)
@@ -275,10 +275,10 @@ namespace LeoConsole
     {
         public string Name { get { return "whoami"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_whoamiCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             Console.WriteLine($"{LocalisationManager.GetLocalizationFromKey("lc_username")}: " + Commands.consoleData.User.name);
@@ -443,10 +443,10 @@ namespace LeoConsole
     {
         public string Name { get { return "pkginfo"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_pkginfoCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             foreach(IPlugin plugin in PluginLoader.Plugins)
@@ -468,10 +468,10 @@ namespace LeoConsole
     {
         public string Name { get { return "ls"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_lsCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             if (_InputProperties.Length < 2)
@@ -535,10 +535,10 @@ namespace LeoConsole
     {
         public string Name { get { return "cd"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_cdCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             if (_InputProperties.Length > 1)
@@ -578,10 +578,10 @@ namespace LeoConsole
     {
         public string Name { get { return "mkdir"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_mkdirCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             if (_InputProperties.Length < 2)
@@ -620,10 +620,10 @@ namespace LeoConsole
     {
         public string Name { get { return "rmtrash"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_rmtrashCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
             if (_InputProperties.Length < 2)
@@ -697,15 +697,15 @@ namespace LeoConsole
     {
         public string Name { get { return "lang"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_langCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            if(InputProperties.Length > 1)
+            if(Arguments.Length > 1)
             {
-                LocalisationManager.Language = InputProperties[1];
+                LocalisationManager.Language = Arguments[1];
             }
             else
             {
@@ -734,22 +734,22 @@ namespace LeoConsole
 
         public string Name { get { return "dpkg"; } }
         public string Description { get { return LocalisationManager.GetLocalizationFromKey("lc_dpkgCmdInfo"); } }
-        public Action CommandFunktion { get { return () => Command(); } }
-        public Action HelpFunktion { get { return () => Help(); } }
+        public Action CommandFunction { get { return () => Command(); } }
+        public Action HelpFunction { get { return () => Help(); } }
         private string[] _InputProperties;
-        public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+        public string[] Arguments { get { return _InputProperties; } set { _InputProperties = value; } }
         public void Command()
         {
-            if(InputProperties.Length > 1)
+            if(Arguments.Length > 1)
             {
-                switch (InputProperties[1])
+                switch (Arguments[1])
                 {
                     case "disabel":
-                        if(InputProperties.Length > 2) { DisabelDpkg(false,InputProperties[2]); }
+                        if(Arguments.Length > 2) { DisabelDpkg(false,Arguments[2]); }
                         break;
 
                     case "enabel":
-                        if (InputProperties.Length > 2) { DisabelDpkg(true, InputProperties[2]); }
+                        if (Arguments.Length > 2) { DisabelDpkg(true, Arguments[2]); }
                         break;
                 }
             }

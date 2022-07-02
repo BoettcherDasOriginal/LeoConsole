@@ -21,22 +21,22 @@ namespace ILeoConsole.Core
         /// <summary>
         /// The main function of your command
         /// </summary>
-        public Action CommandFunktion { get; }
+        public Action CommandFunction { get; }
 
         /// <summary>
         /// The Help Information
         /// </summary>
-        public Action HelpFunktion { get; }
+        public Action HelpFunction { get; }
 
         /// <summary>
         /// The given parameter from the user
         /// </summary>
-        public string[] InputProperties { get; set; }
+        public string[] Arguments { get; set; }
 
         public void Execute(string[] properties)
         {
-            InputProperties = properties;
-            CommandFunktion();
+            Arguments = properties;
+            CommandFunction();
         }
     }
 }

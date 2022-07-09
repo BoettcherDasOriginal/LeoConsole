@@ -45,6 +45,21 @@ namespace ILeoConsole.Plugin
                 if (typeof(IConsole).IsAssignableFrom(type) && type.IsClass) { Consoles.Add((IConsole)Activator.CreateInstance(type)); }
                 if (typeof(ILocalization).IsAssignableFrom(type) && type.IsClass) { LocalisationManager.Localizations.Add((ILocalization)Activator.CreateInstance(type)); }
             }
+
+            GC.Collect(); // collects all unused memory
+            GC.WaitForPendingFinalizers(); // wait until GC has finished its work
+            GC.Collect();
+        }
+
+        public void LoadPlugin(string fileName)
+        {
+            FileInfo fileInfo = new FileInfo(fileName);
+            if (!IsAssemblyLoaded(fileInfo.Name.Replace(".dll", "")))
+            {
+                Assembly.Load(File.ReadAllBytes(Path.GetFullPath(fileName)));
+            }
+            
+            LoadPlugins();
         }
 
         void GetDlls(string path)
@@ -75,7 +90,10 @@ namespace ILeoConsole.Plugin
                         FileInfo fileInfo = new FileInfo(file);
                         if (!disabeledDlls.Contains(fileInfo.Name.Replace(".dll","")))
                         {
-                            Assembly.LoadFile(Path.GetFullPath(file));
+                            if (!IsAssemblyLoaded(fileInfo.Name.Replace(".dll", "")))
+                            {
+                                Assembly.Load(File.ReadAllBytes(Path.GetFullPath(file)));
+                            }
                         }
                     }
                 }
@@ -86,6 +104,19 @@ namespace ILeoConsole.Plugin
                     GetDlls(Path.GetFullPath(dir));
                 }
             }
+        }
+
+        bool IsAssemblyLoaded(string fullName)
+        {
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assemblies)
+            {
+                if (assembly.FullName == fullName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

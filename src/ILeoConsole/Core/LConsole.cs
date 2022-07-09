@@ -252,6 +252,8 @@ namespace ILeoConsole.Core
 
         #endregion
 
+        #region Dialog
+
         /// <summary>
         /// Prints a yes/no dialog with the given message
         /// </summary>
@@ -302,5 +304,38 @@ namespace ILeoConsole.Core
                 }
             }
         }
+
+        #endregion
+
+        #region Messages
+
+        public static void MessageSuc0(string msg)
+        {
+            LConsole.WriteLine("§a==>§r " + msg);
+        }
+        public static void MessageSuc1(string msg)
+        {
+            LConsole.WriteLine("  §a->§r " + msg);
+        }
+
+        public static void MessageErr0(string msg)
+        {
+            LConsole.WriteLine("§c==>§r error: " + msg);
+        }
+        public static void MessageErr1(string msg)
+        {
+            LConsole.WriteLine("  §c->§r error: " + msg);
+        }
+
+        public static void MessageWarn0(string msg)
+        {
+            LConsole.WriteLine("§e==>§r warning: " + msg);
+        }
+        public static void MessageWarn1(string msg)
+        {
+            LConsole.WriteLine("  §e->§r warning: " + msg);
+        }
+
+        #endregion
     }
 }

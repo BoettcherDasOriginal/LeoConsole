@@ -309,6 +309,10 @@ namespace ILeoConsole.Core
 
         #region Messages
 
+        public static void MessageSucC(string msg)
+        {
+            LConsole.WriteLine(" §a::§r " + msg);
+        }
         public static void MessageSuc0(string msg)
         {
             LConsole.WriteLine("§a==>§r " + msg);
@@ -318,6 +322,10 @@ namespace ILeoConsole.Core
             LConsole.WriteLine("  §a->§r " + msg);
         }
 
+        public static void MessageErrC(string msg)
+        {
+            LConsole.WriteLine(" §c::§r " + msg);
+        }
         public static void MessageErr0(string msg)
         {
             LConsole.WriteLine("§c==>§r error: " + msg);
@@ -327,6 +335,10 @@ namespace ILeoConsole.Core
             LConsole.WriteLine("  §c->§r error: " + msg);
         }
 
+        public static void MessageWarnC(string msg)
+        {
+            LConsole.WriteLine(" §e::§r " + msg);
+        }
         public static void MessageWarn0(string msg)
         {
             LConsole.WriteLine("§e==>§r warning: " + msg);
@@ -334,6 +346,19 @@ namespace ILeoConsole.Core
         public static void MessageWarn1(string msg)
         {
             LConsole.WriteLine("  §e->§r warning: " + msg);
+        }
+
+        public static void MessageInfoC(string msg)
+        {
+            LConsole.WriteLine(" §9::§r " + msg);
+        }
+        public static void MessageInfo0(string msg)
+        {
+            LConsole.WriteLine("§9==>§r warning: " + msg);
+        }
+        public static void MessageInfo1(string msg)
+        {
+            LConsole.WriteLine("  §9->§r warning: " + msg);
         }
 
         #endregion

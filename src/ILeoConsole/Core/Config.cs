@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace ILeoConsole.Core
 {
@@ -48,6 +49,44 @@ namespace ILeoConsole.Core
             string startTag = $"#{CategoryName}:\n";
             string endTag = "\n#end";
             return Utils.GetTextBetweenTags(data, startTag, endTag).Split('\n');
+        }
+
+        #endregion
+
+        #region JConfig
+        public static Dictionary<string,string> JConfigGetAll(string pluginName, string savePath)
+        {
+            string configFile = Path.Combine(GetConfigPath(savePath, pluginName), "config.json");
+            if (!File.Exists(configFile))
+            {
+                return new Dictionary<string,string>();
+            }
+
+            try
+            {
+                string content = File.ReadAllText(configFile);
+                return JsonSerializer.Deserialize<Dictionary<string,string>>(content);
+            }
+            catch
+            {
+                return new Dictionary<string,string>();
+            }
+        }
+
+        public static string JConfigGet(string pluginName, string savePath, string key)
+        {
+            JConfigGetAll(pluginName, savePath).TryGetValue(key, out string val);
+            return val;
+        }
+
+        public static void JConfigSet(string pluginName, string savePath, string key, string val)
+        {
+            Dictionary<string,string> oldConfig = JConfigGetAll(pluginName, savePath);
+            oldConfig[key] = val;
+
+            string configFile = Path.Combine(GetConfigPath(savePath, pluginName), "config.json");
+            string configString = JsonSerializer.Serialize(oldConfig);
+            File.WriteAllText(configFile, configString);
         }
 
         #endregion

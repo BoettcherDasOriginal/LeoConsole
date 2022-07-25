@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using ILeoConsole;
@@ -194,9 +195,9 @@ namespace LeoConsole
 
             CurrentWorkingPath = data.SavePath;
 
-            if (!data.isLinuxBuild)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Update.CheckForUpdate(data, "https://github.com/boettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
+                Update.CheckForUpdate(data, "https://github.com/BoettcherDasOriginal/LeoConsole/releases/latest/download/version.txt", data.DownloadPath, data.version);
             }
             else
             {

@@ -29,7 +29,7 @@ namespace LeoConsole
                 //Start
 
                 {"lc_starting", "Starting..."},
-                {"lc_linuxUpdateSkip","Update skiped: LinuxBuild" },
+                {"lc_linuxUpdateSkip","Update skipped: Running on Linux" },
                 {"lc_loadUser","Loading: Users.lcs" },
                 {"lc_loadUser404", "User.lcs could not be found!" },
                 {"lc_loadUserSuc", "Users.lcs successfully loaded!" },

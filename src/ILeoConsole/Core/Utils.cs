@@ -48,20 +48,20 @@ namespace ILeoConsole.Core
 
         #region INPUT HANDLER TOOLS
 
-        public static string[] HandelApostropheInput(string input)
+        public static string[] HandleApostropheInput(string input)
         {
-            input = HandelSpace(input);
+            input = HandleSpace(input);
             string[] output = input.Split(' ');
 
             for (int i = 0; i < output.Length; i++)
             {
-                string propertie = string.Empty;
+                string property = string.Empty;
 
                 if (output[i].Contains('@'))
                 {
-                    propertie = Utils.GetTextBetweenTags(output[i], "@", "@");
-                    string replacement = propertie;
-                    switch (propertie)
+                    property = Utils.GetTextBetweenTags(output[i], "@", "@");
+                    string replacement = property;
+                    switch (property)
                     {
                         case "space":
                             replacement = " ";
@@ -75,13 +75,13 @@ namespace ILeoConsole.Core
             return output;
         }
 
-        private static string HandelSpace(string input)
+        private static string HandleSpace(string input)
         {
             if (input.Contains('\''))
             {
-                string propertie = Utils.GetTextBetweenTags(input, "\'", "\'");
-                propertie = propertie.Replace(" ", "@space@");
-                return HandelSpace(Utils.ReplaceTextBetweenTags(input, propertie, "\'", "\'"));
+                string property = Utils.GetTextBetweenTags(input, "\'", "\'");
+                property = property.Replace(" ", "@space@");
+                return HandleSpace(Utils.ReplaceTextBetweenTags(input, property, "\'", "\'"));
             }
             else
             {

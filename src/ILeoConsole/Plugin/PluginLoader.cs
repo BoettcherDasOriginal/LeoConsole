@@ -111,7 +111,7 @@ namespace ILeoConsole.Plugin
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (Assembly assembly in assemblies)
             {
-                if (assembly.FullName == fullName)
+                if (assembly.FullName.Split(',')[0] == fullName)
                 {
                     return true;
                 }

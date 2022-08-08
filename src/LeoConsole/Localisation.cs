@@ -44,6 +44,9 @@ namespace LeoConsole
                 {"lc_loadCommands","Register: Commands" },
                 {"lc_loadCommandsSuc","Commands successfully registered!" },
 
+                //reboot
+                {"lc_rebootStart","reboot" },
+
                 //Update
 
                 {"lc_updateMsg","Updates available!" },

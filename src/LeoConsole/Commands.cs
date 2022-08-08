@@ -16,7 +16,7 @@ namespace LeoConsole
 
     public static class Commands
     {
-        public static LeoConsole currrentConsole;
+        public static LeoConsoleMain currrentConsole;
         public static UserFunctions userFunctions;
         public static IData consoleData;
     }
@@ -90,7 +90,7 @@ namespace LeoConsole
 
         public void Help()
         {
-            foreach(ICommand command in LeoConsole.commands)
+            foreach(ICommand command in LeoConsoleMain.commands)
             {
                 if(command.Name != "")
                 {
@@ -165,7 +165,8 @@ namespace LeoConsole
 
                 case "":
                 case "y":
-                    Commands.currrentConsole.reboot();
+                    //Commands.currrentConsole.reboot();
+                    Reboot.StartReboot(Commands.consoleData.SavePath);
                     break;
             }
         }
@@ -476,7 +477,7 @@ namespace LeoConsole
         {
             if (_InputProperties.Length < 2)
             {
-                ls(LeoConsole.CurrentWorkingPath);
+                ls(LeoConsoleMain.CurrentWorkingPath);
                 return;
             }
             for (int i = 1; i < _InputProperties.Length; i++)
@@ -492,7 +493,7 @@ namespace LeoConsole
 
         private void ls(string directory)
         {
-            string path = Path.Combine(LeoConsole.CurrentWorkingPath, directory);
+            string path = Path.Combine(LeoConsoleMain.CurrentWorkingPath, directory);
 
             Console.WriteLine(path + ":");
             try
@@ -556,11 +557,11 @@ namespace LeoConsole
                     }
                 }
 
-                string newPath = Path.Combine(LeoConsole.CurrentWorkingPath, path);
+                string newPath = Path.Combine(LeoConsoleMain.CurrentWorkingPath, path);
 
                 if (Directory.Exists(newPath))
                 {
-                    LeoConsole.CurrentWorkingPath = Path.GetFullPath(newPath);
+                    LeoConsoleMain.CurrentWorkingPath = Path.GetFullPath(newPath);
                 }
                 else
                 {
@@ -602,7 +603,7 @@ namespace LeoConsole
 
         private void mkdir(string directory)
         {
-            string path = Path.Combine(LeoConsole.CurrentWorkingPath, directory);
+            string path = Path.Combine(LeoConsoleMain.CurrentWorkingPath, directory);
 
             try
             {
@@ -644,7 +645,7 @@ namespace LeoConsole
 
         private void rmtrash(string path)
         {
-            string _path = Path.Combine(LeoConsole.CurrentWorkingPath, path);
+            string _path = Path.Combine(LeoConsoleMain.CurrentWorkingPath, path);
             string trashPath = Path.Combine(Commands.consoleData.SavePath, "trash");
             if (!Directory.Exists(trashPath))
             {

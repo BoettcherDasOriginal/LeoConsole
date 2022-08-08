@@ -10,8 +10,14 @@
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
+  
+
   <ItemGroup>
     <Content Include="LC_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="reboot\win_reboot.bat" />
   </ItemGroup>
 
   <ItemGroup>

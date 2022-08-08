@@ -23,7 +23,7 @@ namespace LeoConsole
 
             Console.Title = "Leo Console";
 
-            LeoConsole leoConsole = new LeoConsole();
+            LeoConsoleMain leoConsole = new LeoConsoleMain();
             leoConsole.reboot();
 
             Console.WriteLine("LeoConsole has been terminated");

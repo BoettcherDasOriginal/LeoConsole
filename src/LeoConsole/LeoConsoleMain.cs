@@ -12,7 +12,7 @@ using ILeoConsole.Localization;
 
 namespace LeoConsole
 {
-    public class LeoConsole
+    public class LeoConsoleMain
     {
         public Data data;
         User user;
@@ -107,7 +107,7 @@ namespace LeoConsole
                 }
             }
 
-            foreach (IData data in LeoConsole.datas)
+            foreach (IData data in LeoConsoleMain.datas)
             {
                 data.SavePath = this.data.SavePath;
                 data.DownloadPath = this.data.DownloadPath;

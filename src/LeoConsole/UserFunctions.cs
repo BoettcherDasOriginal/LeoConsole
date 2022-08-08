@@ -113,7 +113,7 @@ namespace LeoConsole
             Console.WriteLine(LocalisationManager.GetLocalizationFromKey("lc_userReboot"));
             Console.ReadKey();
 
-            LeoConsole leoConsole = new LeoConsole();
+            LeoConsoleMain leoConsole = new LeoConsoleMain();
             leoConsole.reboot();
         }
 
@@ -181,7 +181,7 @@ namespace LeoConsole
 
             } while (true);
 
-            foreach(IData data in LeoConsole.datas)
+            foreach(IData data in LeoConsoleMain.datas)
             {
                 data.User = result;
             }

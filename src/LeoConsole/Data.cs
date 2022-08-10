@@ -13,7 +13,7 @@ namespace LeoConsole
         public string SavePath;
         public string DownloadPath;
 
-        public string version = "2.1.0";
+        public string version = "2.2.0";
 
         public Data()
         {
